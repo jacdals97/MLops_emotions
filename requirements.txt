@@ -3,3 +3,5 @@ transformers
 wandb
 datasets
 dvc
+numpy
+evaluate

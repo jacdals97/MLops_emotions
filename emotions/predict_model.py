@@ -1,8 +1,9 @@
-import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers import pipeline
 
 def predict(
-    model: torch.nn.Module,
-    dataloader: torch.utils.data.DataLoader
+    model_name: str,
+    data: str | list[str]
 ) -> None:
     """Run prediction for a given model and dataloader.
     
@@ -14,4 +15,11 @@ def predict(
         Tensor of shape [N, d] where N is the number of samples and d is the output dimension of the model
 
     """
-    return torch.cat([model(batch) for batch in dataloader], 0)
+    # Load the model
+    model = AutoModelForSequenceClassification.from_pretrained(f"models/{model_name}/best_model/")
+
+    # Load the tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(f"models/{model_name}/best_model/")
+
+    classifier = pipeline("text-classification", model=model, tokenizer=tokenizer)
+    return classifier(data)
