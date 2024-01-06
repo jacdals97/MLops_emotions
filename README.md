@@ -17,7 +17,7 @@ and does some quick analysis on this to impress the potential client.
 
 *B. What framework are you going to use and do you intend to include the framework into your project?*
 
-We intend to use the Huggingface transformers for pytorch in our project. 
+We intend to use Huggingface transformers for pytorch in our project. 
 
 *C. What data are you going to run on (initially, may change)*
 
@@ -29,7 +29,7 @@ https://huggingface.co/datasets/dair-ai/emotion/blob/main/README.md
 
 *D. What models do you expect to use*
 
-We expect to use the Microsoft E5 Transformer model from huggingface.  
+We expect to use the Microsoft E5 Transformer model from Huggingface.  
 
 ## Project structure
 
