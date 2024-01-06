@@ -19,7 +19,7 @@ and does some quick analysis on this to impress the potential client.
 
 We intend to use Huggingface transformers for pytorch in our project. 
 
-*C. What data are you going to run on (initially, may change)*
+*C. What data are you going to run on?*
 
 We use a dataset consisting of 20,000 tweets in English with annotated emotions (sadness, joy, love, anger, fear, surprise). 
 This data comes from the DAIR.AI group and was collected and preprocessed for the creation of this paper: https://aclanthology.org/D18-1404.pdf 
