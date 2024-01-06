@@ -2,7 +2,7 @@
 
 **Project description**
 
-*A. Overall goal of the project*
+*A. What is the overall goal of the project?*
 
 We (hypothetically) work at an AI analytics company where we have clients from the private and public sectors who hire us to do analytics for them.
 
@@ -27,7 +27,7 @@ The data can be found here:
 https://huggingface.co/datasets/dair-ai/emotion/blob/main/README.md
 
 
-*D. What models do you expect to use*
+*D. What models do you expect to use?*
 
 We expect to use the Microsoft E5 Transformer model from Huggingface.  
 
