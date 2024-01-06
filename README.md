@@ -4,7 +4,7 @@
 
 *A. Overall goal of the project*
 
-We (hypothetically) work at an AI analytics company, where we have clients from the private and public sectors, who hire us to do analytics for them.
+We (hypothetically) work at an AI analytics company where we have clients from the private and public sectors who hire us to do analytics for them.
 
 The overall goal of the project is to create an online application where consultants at our company can do some quick and impressive NLP analytics for clients. 
 In the application, the consultant will be able to upload a .csv file containing text-bits for emotion classification. The consultant will upload a file with the following variables:
