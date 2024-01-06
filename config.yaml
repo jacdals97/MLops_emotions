@@ -1,0 +1,6 @@
+# configuration of hyperparameters
+hyperparameters:
+  batch_size: 16
+  num_train_epochs: 4
+  learning_rate: 2e-5
+  weight_decay: 0.01
