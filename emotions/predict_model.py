@@ -1,25 +1,48 @@
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import pipeline
+from typing import Union, List, Dict
 
-def predict(
-    model_name: str,
-    data: str | list[str]
-) -> None:
-    """Run prediction for a given model and dataloader.
-    
-    Args:
-        model: model to use for prediction
-        dataloader: dataloader with batches
-    
-    Returns
-        Tensor of shape [N, d] where N is the number of samples and d is the output dimension of the model
 
+class Predictor:
     """
+    A class that loads a pretrained model and tokenizer and uses them to classify the input data.
+
+    Attributes:
+        model_name (str): The name of the model to load.
+    """
+
+    def __init__(self, model_name: str):
+        """
+        The constructor for Predictor class.
+
+        Parameters:
+            model_name (str): The name of the model to load.
+        """
+        self.model_name = model_name
+        # Load the model
+        model = AutoModelForSequenceClassification.from_pretrained(f"models/{self.model_name}/best_model/")
+
+        # Load the tokenizer
+        tokenizer = AutoTokenizer.from_pretrained(f"models/{self.model_name}/best_model/")
+        self.classifier = pipeline("text-classification", model=model, tokenizer=tokenizer)
+
+    def predict(self, data: Union[str, List[str]]) -> List[Dict[str, float]]:
+        """
+        Load a pretrained model and tokenizer and use them to classify the input data.
+
+        Parameters:
+            data (Union[str, List[str]]): The data to classify. Can be a single string or a list of strings.
+
+        Returns:
+            The classification results.
+        """
+
+        return self.classifier(data)
+
+
+if __name__ == '__main__':
     # Load the model
-    model = AutoModelForSequenceClassification.from_pretrained(f"models/{model_name}/best_model/")
-
-    # Load the tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(f"models/{model_name}/best_model/")
-
-    classifier = pipeline("text-classification", model=model, tokenizer=tokenizer)
-    return classifier(data)
+    model_name = "distilbert-base-uncased"
+    model = Predictor(model_name)
+    print(model.predict("I am happy"))
+    print(model.predict("I am sad"))
