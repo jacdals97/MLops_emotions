@@ -1,7 +1,9 @@
 torch >= 2.1.0
-transformers
+transformers[torch]
 wandb
 datasets
 dvc
 numpy
 evaluate
+scikit-learn
+python-dotenv
