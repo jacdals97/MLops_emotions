@@ -4,6 +4,10 @@ import evaluate
 import numpy as np
 import wandb
 from datasets import load_from_disk
+from omegaconf import OmegaConf # omegaconf is used to load the config file with Hydra
+
+# Load the config file
+config = OmegaConf.load("config.yaml")
 
 accuracy = evaluate.load("accuracy")
 f1 = evaluate.load("f1")
@@ -29,11 +33,11 @@ dataset = load_from_disk('./data/processed/')
 
 training_args = TrainingArguments(
     output_dir=f"models/{model_name}",
-    learning_rate=2e-5,
-    per_device_train_batch_size=16,
-    per_device_eval_batch_size=16,
-    num_train_epochs=2,
-    weight_decay=0.01,
+    learning_rate=config.hyperparameters.learning_rate,
+    per_device_train_batch_size=config.hyperparameters.batch_size,
+    per_device_eval_batch_size=config.hyperparameters.batch_size,
+    num_train_epochs=config.hyperparameters.num_train_epochs,
+    weight_decay=config.hyperparameters.weight_decay,
     evaluation_strategy="epoch",
     save_strategy="epoch",
     load_best_model_at_end=True,
