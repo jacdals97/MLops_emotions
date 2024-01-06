@@ -3,5 +3,7 @@ transformers
 wandb
 datasets
 dvc
+dvc-gdrive
 numpy
 evaluate
+hydra-core
