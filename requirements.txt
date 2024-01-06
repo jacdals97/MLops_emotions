@@ -3,7 +3,9 @@ transformers[torch]
 wandb
 datasets
 dvc
+dvc-gdrive
 numpy
 evaluate
 scikit-learn
 python-dotenv
+hydra-core
