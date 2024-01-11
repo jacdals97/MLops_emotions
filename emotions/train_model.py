@@ -5,9 +5,9 @@ import numpy as np
 import wandb
 from datasets import load_from_disk
 from omegaconf import OmegaConf # omegaconf is used to load the config file with Hydra
+import hydra
 
 # Load the config file
-config = OmegaConf.load("config.yaml")
 from dotenv import load_dotenv
 from typing import Dict, Tuple
 
@@ -35,49 +35,55 @@ def compute_metrics(eval_pred: Tuple[np.ndarray, np.ndarray]) -> Dict[str, float
         'f1_macro': f1.compute(predictions= predictions, references=labels, average='macro')
     }
 
-# Specify the model name
-model_name = "distilbert-base-uncased"
 
-# Load the model
-model = ModelLoader(model_name).load_model()
+@hydra.main(config_path="../config", config_name="config.yaml", version_base='1.3')
+def main(cfg):
+    # Specify the model name
+    model_name = "distilbert-base-uncased"
 
-# Load the tokenizer
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+    # Load the model
+    model = ModelLoader(model_name).load_model()
 
-# Initialize a data collator for padding
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+    # Load the tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-# Load the dataset from disk
-dataset = load_from_disk('./data/processed/')
+    # Initialize a data collator for padding
+    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-# Define the training arguments
-training_args = TrainingArguments(
-    output_dir=f"models/{model_name}",
-    learning_rate=config.hyperparameters.learning_rate,
-    per_device_train_batch_size=config.hyperparameters.batch_size,
-    per_device_eval_batch_size=config.hyperparameters.batch_size,
-    num_train_epochs=config.hyperparameters.num_train_epochs,
-    weight_decay=config.hyperparameters.weight_decay,
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    load_best_model_at_end=True,
-    report_to="wandb",  # enable reporting to W&B
-)
+    # Load the dataset from disk
+    dataset = load_from_disk('./data/processed/')
 
-# Initialize the trainer
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=dataset["train"],
-    eval_dataset=dataset["validation"],
-    tokenizer=tokenizer,
-    data_collator=data_collator,
-    compute_metrics=compute_metrics,
-)
+    # Define the training arguments
+    training_args = TrainingArguments(
+        output_dir=f"models/{model_name}",
+        learning_rate=cfg.hyperparameters.learning_rate,
+        per_device_train_batch_size=cfg.hyperparameters.batch_size,
+        per_device_eval_batch_size=cfg.hyperparameters.batch_size,
+        num_train_epochs=cfg.hyperparameters.num_train_epochs,
+        weight_decay=cfg.hyperparameters.weight_decay,
+        evaluation_strategy="epoch",
+        save_strategy="epoch",
+        load_best_model_at_end=True,
+        report_to="wandb",  # enable reporting to W&B
+    )
 
-# Train the model
-trainer.train()
+    # Initialize the trainer
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=dataset["train"],
+        eval_dataset=dataset["validation"],
+        tokenizer=tokenizer,
+        data_collator=data_collator,
+        compute_metrics=compute_metrics,
+    )
 
-# Save the best model and tokenizer
-trainer.save_model(f"models/{model_name}/best_model/")
-tokenizer.save_pretrained(f"models/{model_name}/best_model/")
+    # Train the model
+    trainer.train()
+
+    # Save the best model and tokenizer
+    trainer.save_model(f"models/{model_name}/best_model/")
+    tokenizer.save_pretrained(f"models/{model_name}/best_model/")
+
+if __name__ == "__main__":
+    main()
