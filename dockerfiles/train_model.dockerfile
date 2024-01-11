@@ -9,6 +9,8 @@ COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 COPY emotions/ emotions/
 COPY data/ data/
+COPY config/ config/
+COPY .env .env
 
 WORKDIR /
 RUN pip install -r requirements.txt --no-cache-dir

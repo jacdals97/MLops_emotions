@@ -182,3 +182,4 @@ wandb/
 #models
 models/
 /data
+/outputs
