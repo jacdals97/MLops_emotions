@@ -32,6 +32,8 @@ jobs:
         pip install . --no-deps --no-cache-dir
     - uses: iterative/setup-dvc@v1
     - name: Get data
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       run: |
         dvc pull
     - name: Test with pytest
