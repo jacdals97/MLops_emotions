@@ -24,6 +24,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
         cache-dependency-path: 'requirements*.txt'
+    - name: check echo
+      run: |
+        'echo "$KEY" > key.json'
+      env:
+        KEY: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -33,7 +38,7 @@ jobs:
     - uses: iterative/setup-dvc@v1
     - name: Get data
       env:
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        GOOGLE_APPLICATION_CREDENTIALS: ./key.json
       run: |
         dvc pull
     - name: Test with pytest
