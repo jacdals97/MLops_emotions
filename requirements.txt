@@ -3,7 +3,7 @@ transformers[torch]
 wandb
 datasets
 dvc
-dvc-gdrive
+dvc-gs
 numpy
 evaluate
 scikit-learn
