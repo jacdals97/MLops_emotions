@@ -1,6 +1,293 @@
 outs:
-- md5: dab74eb6df61dbf10e4245a7ffa61f0b.dir
-  size: 14440708
-  nfiles: 38
-  hash: md5
+- hash: md5
   path: data
+  files:
+  - relpath: processed/.gitkeep
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 08e997dbbcdbd583031001
+        version_id: '1704989132508137'
+  - relpath: processed/dataset_dict.json
+    md5: d891fc9df4ce897bcacc398f78aea2ff
+    size: 43
+    cloud:
+      remote_storage:
+        etag: 08aed6dbbcdbd583031001
+        version_id: '1704989132516142'
+  - relpath: processed/test/data-00000-of-00001.arrow
+    md5: b8ab33417162c326e37a8eb7a6803e99
+    size: 456952
+    cloud:
+      remote_storage:
+        etag: 08f9e7f8bcdbd583031001
+        version_id: '1704989132993529'
+  - relpath: processed/test/dataset_info.json
+    md5: 7a762d1a37faec19f6dbbe063461333a
+    size: 3478
+    cloud:
+      remote_storage:
+        etag: 0880d7dbbcdbd583031001
+        version_id: '1704989132516224'
+  - relpath: processed/test/state.json
+    md5: a207560b34f415ccdfdd5798ad2003e5
+    size: 304
+    cloud:
+      remote_storage:
+        etag: 088eb5ddbcdbd583031001
+        version_id: '1704989132544654'
+  - relpath: processed/train/data-00000-of-00001.arrow
+    md5: 4e666cf0de57bad82e9ee8a8cf155f87
+    size: 3658032
+    cloud:
+      remote_storage:
+        etag: 08e1d38abddbd583031001
+        version_id: '1704989133285857'
+  - relpath: processed/train/dataset_info.json
+    md5: 7a762d1a37faec19f6dbbe063461333a
+    size: 3478
+    cloud:
+      remote_storage:
+        etag: 08bb88dcbcdbd583031001
+        version_id: '1704989132522555'
+  - relpath: processed/train/state.json
+    md5: 4807db57e4e247de22e9742081f426d2
+    size: 305
+    cloud:
+      remote_storage:
+        etag: 08b2a5dcbcdbd583031001
+        version_id: '1704989132526258'
+  - relpath: processed/validation/data-00000-of-00001.arrow
+    md5: aba355013d91f414eda15fc2d311210a
+    size: 451344
+    cloud:
+      remote_storage:
+        etag: 0887f1eebcdbd583031001
+        version_id: '1704989132830855'
+  - relpath: processed/validation/dataset_info.json
+    md5: 7a762d1a37faec19f6dbbe063461333a
+    size: 3478
+    cloud:
+      remote_storage:
+        etag: 08b4abdbbcdbd583031001
+        version_id: '1704989132510644'
+  - relpath: processed/validation/state.json
+    md5: db86e404c7e422233bcd7312ef4a11f4
+    size: 310
+    cloud:
+      remote_storage:
+        etag: 08c9b2dbbcdbd583031001
+        version_id: '1704989132511561'
+  - relpath: raw/.gitkeep
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 08b782b8bcdbd583031001
+        version_id: '1704989131931959'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd.incomplete_info.lock
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 0888a3dcbcdbd583031001
+        version_id: '1704989132525960'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd/LICENSE
+    md5: 1b92b9d6c543d00505c69ed30f9be309
+    size: 69
+    cloud:
+      remote_storage:
+        etag: 08f1f7dcbcdbd583031001
+        version_id: '1704989132536817'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd/cache-043168d0e5a87283.arrow
+    md5: 10a02d325e1643a2a43961c6b7d43000
+    size: 456984
+    cloud:
+      remote_storage:
+        etag: 08c3b181bddbd583031001
+        version_id: '1704989133134019'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd/cache-6adb3bbd7ea0c16f.arrow
+    md5: f7beb2ff0f8b98faadd7cb7dfad9b865
+    size: 451376
+    cloud:
+      remote_storage:
+        etag: 08e48ef0bcdbd583031001
+        version_id: '1704989132851044'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd/cache-a9a39f75c73a0c3d.arrow
+    md5: 63510988149dce6beb3fae6894d3dbb0
+    size: 3658064
+    cloud:
+      remote_storage:
+        etag: 08d2e993bddbd583031001
+        version_id: '1704989133436114'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd/dataset_info.json
+    md5: 80ef84097071eecfbcd75b21b9bb2897
+    size: 2840
+    cloud:
+      remote_storage:
+        etag: 08f6eddcbcdbd583031001
+        version_id: '1704989132535542'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd/emotion-test.arrow
+    md5: 6a956e70f7a53eca98a20ed8aa9f1485
+    size: 218032
+    cloud:
+      remote_storage:
+        etag: 08e6a4f2bcdbd583031001
+        version_id: '1704989132886630'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd/emotion-train.arrow
+    md5: ecddc5f0534722929e39fe5e34294d03
+    size: 1745464
+    cloud:
+      remote_storage:
+        etag: 0892f9fbbcdbd583031001
+        version_id: '1704989133044882'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd/emotion-validation.arrow
+    md5: 32d2a2193b71a1e12c2a0c806a09e971
+    size: 215552
+    cloud:
+      remote_storage:
+        etag: 08bfcff3bcdbd583031001
+        version_id: '1704989132908479'
+  - relpath: 
+      raw/dair-ai___emotion/split/1.0.0/cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd_builder.lock
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 088bf9dbbcdbd583031001
+        version_id: '1704989132520587'
+  - relpath: 
+      raw/data_raw_dair-ai___emotion_split_1.0.0_cca5efe2dfeb58c1d098e0f9eeb200e9927d889b5a03c67097275dfb5fe463bd.lock
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 08a7acd6bcdbd583031001
+        version_id: '1704989132428839'
+  - relpath: raw/downloads/274f9b7f1ab457dc5c1d954aca5e3e2c3260d5f0c4fac95b91a9fcf77cd75c6d
+    md5: bb27b3bdcf378068de17a51564f5fd64
+    size: 74018
+    cloud:
+      remote_storage:
+        etag: 08a498debcdbd583031001
+        version_id: '1704989132557348'
+  - relpath: 
+      raw/downloads/274f9b7f1ab457dc5c1d954aca5e3e2c3260d5f0c4fac95b91a9fcf77cd75c6d.json
+    md5: 06931bfa93f68783d9ce816e103d17fa
+    size: 110
+    cloud:
+      remote_storage:
+        etag: 08d8f9dbbcdbd583031001
+        version_id: '1704989132520664'
+  - relpath: 
+      raw/downloads/274f9b7f1ab457dc5c1d954aca5e3e2c3260d5f0c4fac95b91a9fcf77cd75c6d.lock
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 089df8dabcdbd583031001
+        version_id: '1704989132504093'
+  - relpath: raw/downloads/b33fc7f2db3a584112f82d34bd760ce4cdef2b694acd3e07e086640d9a88611b
+    md5: 788fcfeee73b15a3e2c951ea90069c6c
+    size: 74935
+    cloud:
+      remote_storage:
+        etag: 08e78be0bcdbd583031001
+        version_id: '1704989132588519'
+  - relpath: 
+      raw/downloads/b33fc7f2db3a584112f82d34bd760ce4cdef2b694acd3e07e086640d9a88611b.json
+    md5: e96430c40e7c513eb47392c4c4f3db0b
+    size: 104
+    cloud:
+      remote_storage:
+        etag: 08ddd3dcbcdbd583031001
+        version_id: '1704989132532189'
+  - relpath: 
+      raw/downloads/b33fc7f2db3a584112f82d34bd760ce4cdef2b694acd3e07e086640d9a88611b.lock
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 0880acdbbcdbd583031001
+        version_id: '1704989132510720'
+  - relpath: 
+      raw/downloads/extracted/28ee217564c97fa75fb2e115a45068f9140cec7af6e89337f873fa73a3651833
+    md5: 3ca8df8e76259467e8569a940524b67c
+    size: 1901533
+    cloud:
+      remote_storage:
+        etag: 08fb9281bddbd583031001
+        version_id: '1704989133130107'
+  - relpath: 
+      raw/downloads/extracted/28ee217564c97fa75fb2e115a45068f9140cec7af6e89337f873fa73a3651833.lock
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 08c5cedcbcdbd583031001
+        version_id: '1704989132531525'
+  - relpath: 
+      raw/downloads/extracted/36f7df25b0a3a0df90146ef50e48a1f7a0bc6aecbdac682c598aa4f954fecf4e
+    md5: 599ab351f41afb8be644df026b666815
+    size: 234695
+    cloud:
+      remote_storage:
+        etag: 08dac6eabcdbd583031001
+        version_id: '1704989132759898'
+  - relpath: 
+      raw/downloads/extracted/36f7df25b0a3a0df90146ef50e48a1f7a0bc6aecbdac682c598aa4f954fecf4e.lock
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 08e385dbbcdbd583031001
+        version_id: '1704989132505827'
+  - relpath: 
+      raw/downloads/extracted/678c06b14b4109422c2e87d9fbf6789c589cff053c474da7298b2ddc84e8d2d7
+    md5: 0d85179cd5a14b9efab452a5c6ad2978
+    size: 237173
+    cloud:
+      remote_storage:
+        etag: 089986e9bcdbd583031001
+        version_id: '1704989132735257'
+  - relpath: 
+      raw/downloads/extracted/678c06b14b4109422c2e87d9fbf6789c589cff053c474da7298b2ddc84e8d2d7.lock
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 0889c1dbbcdbd583031001
+        version_id: '1704989132513417'
+  - relpath: raw/downloads/f619f6f98491718c1b63d3544b3e554dea79a55d7f0d9173ebb9c46212c645cf
+    md5: 4df50a169fecd61d9047afeb450225c1
+    size: 591930
+    cloud:
+      remote_storage:
+        etag: 0896affbbcdbd583031001
+        version_id: '1704989133035414'
+  - relpath: 
+      raw/downloads/f619f6f98491718c1b63d3544b3e554dea79a55d7f0d9173ebb9c46212c645cf.json
+    md5: 92558a8c5ea5c40278f6acd8c69b42db
+    size: 105
+    cloud:
+      remote_storage:
+        etag: 0896dfdbbcdbd583031001
+        version_id: '1704989132517270'
+  - relpath: 
+      raw/downloads/f619f6f98491718c1b63d3544b3e554dea79a55d7f0d9173ebb9c46212c645cf.lock
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 08b7cadbbcdbd583031001
+        version_id: '1704989132514615'

@@ -8,7 +8,6 @@ RUN apt update && \
 COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 COPY emotions/ emotions/
-COPY data/ data/
 COPY config/ config/
 COPY .env .env
 

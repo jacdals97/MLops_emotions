@@ -2,6 +2,7 @@ import torch
 from emotions.models.model import ModelLoader
 import pytest
 
+
 class TestModel:
     @pytest.fixture(autouse=True)
     def setup(self):
