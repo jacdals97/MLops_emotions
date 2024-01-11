@@ -1,0 +1,5 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-f', 'predict_model.dockerfile', '-t', 'gcr.io/emotions-410912/predict', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/emotions-410912/predict']
