@@ -1,0 +1,41 @@
+name: "Run tests"
+
+on:
+  push:
+    branches: [ master, main, dev]
+  pull_request:
+    branches: [ master, main, dev ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.11]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: 'requirements*.txt'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt --no-cache-dir
+        pip install -r requirements_dev.txt --no-cache-dir
+        pip install . --no-deps --no-cache-dir
+    - uses: iterative/setup-dvc@v1
+    - name: Get data
+      run: |
+        cd jacob_mnist
+        dvc pull
+    - name: Test with pytest
+      run: |
+        pip install pytest
+        pytest -v tests/

@@ -2,9 +2,7 @@ from transformers import AutoTokenizer, TrainingArguments, Trainer, DataCollator
 from emotions.models.model import ModelLoader
 import evaluate
 import numpy as np
-import wandb
 from datasets import load_from_disk
-from omegaconf import OmegaConf # omegaconf is used to load the config file with Hydra
 import hydra
 
 # Load the config file
@@ -16,6 +14,7 @@ load_dotenv()
 # Load evaluation metrics
 accuracy = evaluate.load("accuracy")
 f1 = evaluate.load("f1")
+
 
 def compute_metrics(eval_pred: Tuple[np.ndarray, np.ndarray]) -> Dict[str, float]:
     """
@@ -30,31 +29,49 @@ def compute_metrics(eval_pred: Tuple[np.ndarray, np.ndarray]) -> Dict[str, float
     predictions, labels = eval_pred
     predictions = np.argmax(predictions, axis=1)
     return {
-        'accuracy': accuracy.compute(predictions=predictions, references=labels),
-        'f1_weighted': f1.compute(predictions= predictions, references=labels, average='weighted'),
-        'f1_macro': f1.compute(predictions= predictions, references=labels, average='macro')
+        "accuracy": accuracy.compute(predictions=predictions, references=labels),
+        "f1_weighted": f1.compute(predictions=predictions, references=labels, average="weighted"),
+        "f1_macro": f1.compute(predictions=predictions, references=labels, average="macro"),
     }
 
 
-@hydra.main(config_path="../config", config_name="config.yaml", version_base='1.3')
-def main(cfg):
-    # Specify the model name
+@hydra.main(config_path="../config", config_name="config.yaml", version_base="1.3")
+def main(
+    cfg,
+    model_loader=ModelLoader,
+    tokenizer_class=AutoTokenizer,
+    data_collator_class=DataCollatorWithPadding,
+    trainer_class=Trainer,
+):
     model_name = "distilbert-base-uncased"
+    model = load_model(model_loader, model_name)
+    tokenizer = load_tokenizer(tokenizer_class, model_name)
+    data_collator = load_data_collator(data_collator_class, tokenizer)
+    dataset = load_dataset("./data/processed/")
+    training_args = get_training_args(cfg, model_name)
+    trainer = initialize_trainer(trainer_class, model, training_args, dataset, tokenizer, data_collator)
+    train_model(trainer)
+    save_model_and_tokenizer(trainer, tokenizer, model_name)
 
-    # Load the model
-    model = ModelLoader(model_name).load_model()
 
-    # Load the tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+def load_model(model_loader, model_name):
+    return model_loader(model_name).load_model()
 
-    # Initialize a data collator for padding
-    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-    # Load the dataset from disk
-    dataset = load_from_disk('./data/processed/')
+def load_tokenizer(tokenizer_class, model_name):
+    return tokenizer_class.from_pretrained(model_name)
 
-    # Define the training arguments
-    training_args = TrainingArguments(
+
+def load_data_collator(data_collator_class, tokenizer):
+    return data_collator_class(tokenizer=tokenizer)
+
+
+def load_dataset(path):
+    return load_from_disk(path)
+
+
+def get_training_args(cfg, model_name):
+    return TrainingArguments(
         output_dir=f"models/{model_name}",
         learning_rate=cfg.hyperparameters.learning_rate,
         per_device_train_batch_size=cfg.hyperparameters.batch_size,
@@ -64,11 +81,12 @@ def main(cfg):
         evaluation_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,
-        report_to="wandb",  # enable reporting to W&B
+        report_to="wandb",
     )
 
-    # Initialize the trainer
-    trainer = Trainer(
+
+def initialize_trainer(trainer_class, model, training_args, dataset, tokenizer, data_collator):
+    return trainer_class(
         model=model,
         args=training_args,
         train_dataset=dataset["train"],
@@ -78,12 +96,15 @@ def main(cfg):
         compute_metrics=compute_metrics,
     )
 
-    # Train the model
+
+def train_model(trainer):
     trainer.train()
 
-    # Save the best model and tokenizer
+
+def save_model_and_tokenizer(trainer, tokenizer, model_name):
     trainer.save_model(f"models/{model_name}/best_model/")
     tokenizer.save_pretrained(f"models/{model_name}/best_model/")
+
 
 if __name__ == "__main__":
     main()
