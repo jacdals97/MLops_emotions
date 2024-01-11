@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer, TrainingArguments, Trainer, DataCollatorWithPadding
-from models.model import ModelLoader
+from emotions.models.model import ModelLoader
 import evaluate
 import numpy as np
 import wandb

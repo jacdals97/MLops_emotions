@@ -3,9 +3,9 @@ from transformers import AutoTokenizer
 import datasets
 import transformers
 
-if __name__ == '__main__':
+def main():
     # Load dataset from huggingface
-    dataset = load_dataset("dair-ai/emotion", cache_dir="./data/raw")  # use cache_dir to store raw data
+    dataset = load_dataset("dair-ai/emotion", cache_dir="./data/raw", trust_remote_code=True)  # use cache_dir to store raw data
 
     # Initialize tokenizer
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
@@ -32,3 +32,6 @@ if __name__ == '__main__':
 
     # Save the tokenized datasets to disk
     tokenized_datasets.save_to_disk("./data/processed")
+
+if __name__ == '__main__':
+    main()
