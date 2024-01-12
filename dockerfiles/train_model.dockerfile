@@ -9,10 +9,10 @@ COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 COPY emotions/ emotions/
 COPY config/ config/
-COPY .env .env
 
 WORKDIR /
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install . --no-deps --no-cache-dir
+RUN dvc pull
 
 ENTRYPOINT ["python", "-u", "emotions/train_model.py"]
