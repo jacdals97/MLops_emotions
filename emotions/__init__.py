@@ -1,2 +1,2 @@
-from emotions.models.model import MyNeuralNet
-from emotions.predict_model import predict
+from emotions.models.model import AutoModelForSequenceClassification
+from emotions.predict_model import Predictor
