@@ -9,3 +9,4 @@ evaluate
 scikit-learn
 python-dotenv
 hydra-core
+websockets
