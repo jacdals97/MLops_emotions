@@ -47,14 +47,15 @@ def test_get_training_args():
     cfg.hyperparameters.batch_size = 16
     cfg.hyperparameters.num_train_epochs = 3
     cfg.hyperparameters.weight_decay = 0.01
-    model_name = "distilbert-base-uncased"
-    training_args = get_training_args(cfg, model_name)
+    cfg.online = False
+    save_path = f"models/distilbert-base-uncased"
+    training_args = get_training_args(cfg, save_path)
     assert training_args.learning_rate == 0.01
     assert training_args.per_device_train_batch_size == 16
     assert training_args.per_device_eval_batch_size == 16
     assert training_args.num_train_epochs == 3
     assert training_args.weight_decay == 0.01
-    assert training_args.output_dir == f"models/{model_name}"
+    assert training_args.output_dir == save_path
 
 
 @patch("emotions.train_model.Trainer")
@@ -85,7 +86,7 @@ def test_train_model(mock_trainer):
 @patch("emotions.train_model.Trainer")
 def test_save_model_and_tokenizer(mock_trainer):
     tokenizer = Mock()
-    model_name = "distilbert-base-uncased"
-    save_model_and_tokenizer(mock_trainer, tokenizer, model_name)
-    mock_trainer.save_model.assert_called_once_with(f"models/{model_name}/best_model/")
-    tokenizer.save_pretrained.assert_called_once_with(f"models/{model_name}/best_model/")
+    save_path = f"models/distilbert-base-uncased"
+    save_model_and_tokenizer(mock_trainer, tokenizer, save_path)
+    mock_trainer.save_model.assert_called_once_with(f"{save_path}/best_model/")
+    tokenizer.save_pretrained.assert_called_once_with(f"{save_path}/best_model/")

@@ -43,15 +43,16 @@ def main(
     data_collator_class=DataCollatorWithPadding,
     trainer_class=Trainer,
 ):
-    model_name = "distilbert-base-uncased"
+    model_name = cfg.model_name
+    save_path = f"{cfg.bucket}/models/{model_name}" if cfg.online else f"models/{model_name}"
     model = load_model(model_loader, model_name)
     tokenizer = load_tokenizer(tokenizer_class, model_name)
     data_collator = load_data_collator(data_collator_class, tokenizer)
     dataset = load_dataset("./data/processed/")
-    training_args = get_training_args(cfg, model_name)
+    training_args = get_training_args(cfg, save_path)
     trainer = initialize_trainer(trainer_class, model, training_args, dataset, tokenizer, data_collator)
     train_model(trainer)
-    save_model_and_tokenizer(trainer, tokenizer, model_name)
+    save_model_and_tokenizer(trainer, tokenizer, save_path)
 
 
 def load_model(model_loader, model_name):
@@ -70,9 +71,9 @@ def load_dataset(path):
     return load_from_disk(path)
 
 
-def get_training_args(cfg, model_name):
+def get_training_args(cfg, save_path):
     return TrainingArguments(
-        output_dir=f"models/{model_name}",
+        output_dir=save_path,
         learning_rate=cfg.hyperparameters.learning_rate,
         per_device_train_batch_size=cfg.hyperparameters.batch_size,
         per_device_eval_batch_size=cfg.hyperparameters.batch_size,
@@ -101,9 +102,9 @@ def train_model(trainer):
     trainer.train()
 
 
-def save_model_and_tokenizer(trainer, tokenizer, model_name):
-    trainer.save_model(f"models/{model_name}/best_model/")
-    tokenizer.save_pretrained(f"models/{model_name}/best_model/")
+def save_model_and_tokenizer(trainer, tokenizer, save_path):
+    trainer.save_model(f"{save_path}/best_model/")
+    tokenizer.save_pretrained(f"{save_path}/best_model/")
 
 
 if __name__ == "__main__":
