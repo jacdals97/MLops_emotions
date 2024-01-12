@@ -40,7 +40,7 @@ class Predictor:
         return self.classifier(data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Load the model
     model_name = "distilbert-base-uncased"
     model = Predictor(model_name)

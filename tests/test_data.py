@@ -4,12 +4,11 @@ import emotions.data.make_dataset as make_dataset
 from tests import _PATH_DATA
 import pytest
 from datasets import load_from_disk
-from transformers import AutoTokenizer
 import shutil
+
 
 @pytest.mark.skipif(not os.path.exists(_PATH_DATA), reason="Data files not found")
 class TestMakeDataset:
-
     @pytest.fixture(autouse=True)
     def test_data_setup(self):
         self.raw_path = os.path.join(_PATH_DATA, "raw/")
@@ -47,6 +46,6 @@ class TestMakeDataset:
     def test_labels(self):
         # test that all labels are in the training dataset
         self.dataset = load_from_disk(os.path.join(_PATH_DATA, "processed"))
-        assert set(self.dataset["train"]["label"].numpy()) == set(range(6)), "train labels should contain all numbers from 0 to 5"
-
-
+        assert set(self.dataset["train"]["label"].numpy()) == set(
+            range(6)
+        ), "train labels should contain all numbers from 0 to 5"
