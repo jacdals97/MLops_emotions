@@ -47,5 +47,8 @@ jobs:
         dvc pull
     - name: Test with pytest
       run: |
-        pip install pytest
-        pytest -v tests/
+        pip install coverage
+        coverage run -m pytest tests/
+        coverage report -i
+
+
