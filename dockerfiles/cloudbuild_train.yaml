@@ -3,3 +3,5 @@ steps:
   args: ['build', '-f', 'dockerfiles/train_model.dockerfile', '-t', 'gcr.io/emotions-410912/training', '.']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/emotions-410912/training']
+options:
+    logging: CLOUD_LOGGING_ONLY
