@@ -9,7 +9,11 @@ COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 COPY emotions/ emotions/
 COPY config/ config/
-COPY .dvc/ .dvc/
+RUN dvc init --no-scm
+COPY .dvc .dvc
+COPY data.dvc data.dvc
+RUN dvc config core.no_scm true
+RUN dvc pull
 
 WORKDIR /
 RUN pip install -r requirements.txt --no-cache-dir
