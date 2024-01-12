@@ -16,6 +16,6 @@ RUN pip install . --no-deps --no-cache-dir
 COPY .dvc .dvc
 COPY data.dvc data.dvc
 RUN dvc config core.no_scm true
-RUN dvc pull
+RUN dvc pull --verbose
 
 ENTRYPOINT ["python", "-u", "emotions/train_model.py"]
