@@ -10,7 +10,6 @@ COPY pyproject.toml pyproject.toml
 COPY emotions/ emotions/
 COPY config/ config/
 COPY .dvc/ .dvc/
-COPY data.dvc data.dvc
 
 WORKDIR /
 RUN pip install -r requirements.txt --no-cache-dir
