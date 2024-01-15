@@ -372,21 +372,15 @@ As already mentioned above, we made use of config files and Wandb to track our e
 
 The first image shows the evaluation results of all the runs in Wandb. As it can be seen in the accuracy and loss graph, there is one experiment that out performs the others "dutiful-blaze-9".
 
-```markdown
 ![my_image](figures/wandb_evaluation.png)
-```
 
 The second image shows the training results, that compares metrics such as loss but also shows some chosen hyper parameters as well as computational results of the different experiments.
 
-```markdown
 ![my_image](figures/wandb_train.png)
-```
 
 The third image below shows the Overview of the best performing experiment dutiful-blaze-9. In the overview, it is possible to see when the experiment was conducted, what user ran it as well as computational input and all the configurations of hyperparameters, models etc. This makes it easy to get an understanding of the experiment and use the same configurations to reproduce it. 
 
-```markdown
 ![my_image](figures/experiment_overview.png)
-```
 
 ### Question 15
 
