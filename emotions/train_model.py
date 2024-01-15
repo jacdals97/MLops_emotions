@@ -36,7 +36,7 @@ def compute_metrics(eval_pred: Tuple[np.ndarray, np.ndarray]) -> Dict[str, float
     }
 
 
-@hydra.main(config_path="../config", config_name="config.yaml", version_base="1.3")
+@hydra.main(config_path="../config", config_name="default_config.yaml", version_base="1.3")
 def main(
     cfg,
     model_loader=ModelLoader,
@@ -44,8 +44,8 @@ def main(
     data_collator_class=DataCollatorWithPadding,
     trainer_class=Trainer,
 ):
-    model_name = cfg.model_name
-    save_path = f"{cfg.bucket}/models/{model_name}" if cfg.online else f"models/{model_name}"
+    model_name = cfg.experiment.model_name
+    save_path =  f"models/{model_name}"
     model = load_model(model_loader, model_name)
     tokenizer = load_tokenizer(tokenizer_class, model_name)
     data_collator = load_data_collator(data_collator_class, tokenizer)
@@ -75,11 +75,11 @@ def load_dataset(path):
 def get_training_args(cfg, save_path):
     return TrainingArguments(
         output_dir=save_path,
-        learning_rate=cfg.hyperparameters.learning_rate,
-        per_device_train_batch_size=cfg.hyperparameters.batch_size,
-        per_device_eval_batch_size=cfg.hyperparameters.batch_size,
-        num_train_epochs=cfg.hyperparameters.num_train_epochs,
-        weight_decay=cfg.hyperparameters.weight_decay,
+        learning_rate=cfg.experiment.hyperparameters.learning_rate,
+        per_device_train_batch_size=cfg.experiment.hyperparameters.batch_size,
+        per_device_eval_batch_size=cfg.experiment.hyperparameters.batch_size,
+        num_train_epochs=cfg.experiment.hyperparameters.num_train_epochs,
+        weight_decay=cfg.experiment.hyperparameters.weight_decay,
         evaluation_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,

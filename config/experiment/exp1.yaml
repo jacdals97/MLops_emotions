@@ -1,6 +1,4 @@
 # configuration of hyperparameters
-online: false
-bucket: /gcs/emotions-410912/
 model_name: distilbert-base-uncased
 hyperparameters:
   batch_size: 16
