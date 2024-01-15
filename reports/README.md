@@ -156,6 +156,7 @@ We used the third-party framework Transformers from Huggingface in our project. 
 > Answer:
 
 We used Conda as a Package Manager to handle our dependencies and have created a requirements.txt and requirements_dev.txt file to store all relevant packages. For a new user to get a complete copy of our development environment, we have created a Makefile to easily set up the environment and install the packages necessary to run our code. To set everything up, a new user would simply have to run the following three commands in a Terminal:
+* git clone https://github.com/jacdals97/MLops_emotions
 * make create_environment
 * make requirements
 * make dev_requirements
@@ -202,11 +203,11 @@ while not using the following folders:
 >
 > Answer:
 
-Whenever something is pushed to the branches 'master', 'main' or 'dev', a format workflow is executed using Ruff which first checks the entire code and then automatically formats the code to be PEP8 compliant. We have diverged from one standard PEP8 rule be allowing line-length to be 120, which is implemented in the pyproject.toml file.
+We have set up GitHub Actions so that whenever something is pushed to the branches 'master', 'main' or 'dev', a format workflow is executed using Ruff which first checks the entire code and then automatically formats the code to be PEP8 compliant. We have diverged from one standard PEP8 rule be allowing line-length to be 120, which is implemented in the pyproject.toml file.
 
 Besides that, general good coding practices have been applied by documenting the code with comments as well as explinations on how to use functions.
 
-Formatting our code to be PEP8 compliant, while following other good coding practices is an extremely important task, especially when wotking on larger projects, in order for new users to understand what is going on so that they can reproduce the project, debug if they encounter errors and carry on developing the project. As this can be hard when many developers are working on the project at the same time, tools like ruff helps streamline the final project.
+Formatting our code to be PEP8 compliant, while following other good coding practices is an extremely important task, especially when wotking on larger projects, in order for new users to understand what is going on so that they can reproduce the project, debug if they encounter errors and carry on developing the project. As this can be hard when many developers are working on the project at the same time, tools like Ruff and GitHub Actions helps streamline the final project.
 
 ## Version control
 
@@ -225,7 +226,10 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 >
 > Answer:
 
---- question 7 fill here ---
+In total we have implemented 3 tests that are testing the three critical components of our application:
+* test_data: In order to test that the data is successfully loaded and processed, we test if the data exists, if it's being properly tokenized, and if all the labels are represented in the training data.
+* test_model: To test that the model works as expected, we create a random tensor and run it through the model to see if it's outputted in the correct size and format.
+* test_train: To test if the training code is working properly, we test that it loads the correct model, receives arguments through Hydra, loads the data, computes the expected metrics etc.
 
 ### Question 8
 
@@ -240,7 +244,23 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 >
 > Answer:
 
---- question 8 fill here ---
+The total code coverage of code is 95%. The reason for the cover to only be 78% in train_model is that we are only testing that the model can access a few training arguments, such as hyperparamters defined with Hydra, and if that is successfull it is trivial to test for more.
+
+| **Name**                      	| **Stmts** 	| **Miss** 	| **Cover** 	|
+|-------------------------------	|-----------	|----------	|-----------	|
+| emotions/__init__.py          	| 0         	| 0        	| 100%      	|
+| emotions/data/__init__.py     	| 0         	| 0        	| 100%      	|
+| emotions/data/make_dataset.py 	| 16        	| 1        	| 94%       	|
+| emotions/models/__init__.py   	| 0         	| 0        	| 100%      	|
+| emotions/models/model.py      	| 9         	| 0        	| 100%      	|
+| emotions/train_model.py       	| 45        	| 10       	| 78%       	|
+| tests/__init__.py             	| 4         	| 0        	| 100%      	|
+| tests/test_data.py            	| 34        	| 0        	| 100%      	|
+| tests/test_model.py           	| 17        	| 0        	| 100%      	|
+| tests/test_train.py           	| 63        	| 0        	| 100%      	|
+| TOTAL                         	| 240       	| 12       	| 95%       	|
+
+Although we have a high total coverage percentage, it does not gurantee an error-free code, as the coverage is only as good as the quality of the tests that are executed.
 
 ### Question 9
 
@@ -255,7 +275,14 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 >
 > Answer:
 
---- question 9 fill here ---
+We made use of both branches and pull requests in our project and created the following branch setup:
+- main
+-- dev
+--- developer_1
+--- developer_2
+--- developer_3
+That way each group member had their own development branch and could work on different parts of the project simultaneously. At the end of each day, we would make a pull request to the dev branch to merge our work together. When merging to the dev branch, we set up Github Actions to test the quality and functionality of the code being merged. Furthermore, we added branch protection to the main branch, in order to add an additional layer of quality control.
+
 
 ### Question 10
 
@@ -269,8 +296,9 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 > *pipeline*
 >
 > Answer:
+We made use of DVC to manage storage and versioning of both data and models. To get started, we initially stored the data in Google Drive and then later on organized dvc to work with a Bucket in Google Cloud Storage. To manage this we wrote a config file to easily switch between these different storage locations. At the end of the day, we did not have any updates to our dataset, thus we did not actively apply versioning on the data and DVC only worked as a large scale storage solution. However, DVC works well when different users want to test different data or make changes to data, so that they can do so without interferring with other's work. As mentioned, we also applied DVC for storing and versioning our trained models in a GCS Bucket.
 
---- question 10 fill here ---
+
 
 ### Question 11
 
@@ -286,7 +314,7 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 >
 > Answer:
 
---- question 11 fill here ---
+We have organized our continuous integration workflow into two separate .yml files that execute specific events: one for doing unittesting and one testing the code format. We are running the format tests for both Ubuntu and Mac operating systems with Python version 3.11, while the unittests are also run for Windows. The tests are triggered whenever something is pushed or has a pull_request to the main, master and dev branches. As it can take some time to install dependencies and get data from dvc whenever the tests are triggered, we have made use of caching in GitHub to speed up this process. The unittests also returns a coverage report, and an example of this triggered workflow can be seen in this link to our [Github-Actions] (https://github.com/jacdals97/MLops_emotions/actions/runs/7499996928/job/20417842206). This CI workflow ensures that our code is up to standard and that is able to be run not only in our local environment, so that it is reproducable for new users.
 
 ## Running code and tracking experiments
 
@@ -305,7 +333,12 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 >
 > Answer:
 
---- question 12 fill here ---
+To organize experiments with different set of hyperparameters and configureatins, we defined these in a .yaml file in a config folder. As an initial step, we have only created a single experiment, but this organization can be set up to easily keep track of different experiments and reproducing them. This file is then loaded using Hydra in our training script, so that training arguments such as batch size, epochs, learning rate and weight decay could be accessed by eg. writing:
+```
+learning_rate=cfg.hyperparameters.learning_rate
+```
+The config.yml file is then set up to work together with Weights and Biases (Wandb), so that the results (important metrics and plots) are stored with the exact experiments parameters each time an experiment is conducted. 
+
 
 ### Question 13
 
@@ -320,7 +353,7 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 >
 > Answer:
 
---- question 13 fill here ---
+As already mentioned above, we made use of config files and Wandb to track our experiments and make them reproducible. An example could be that a new developer looks at the Wandb project and is interested in reproducing the experiment with the highest evaluation accuracy or lowest traing loss. By accessing that specific experiments, the user can then go to Overview to see the chosen hyperparameters and get a detailed overview of the results. The user can then define these specific hyperparamaters in the config.yaml file to reproduce the experiment. This is also shown in the images in Question 14 below.
 
 ### Question 14
 
@@ -337,7 +370,23 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 >
 > Answer:
 
---- question 14 fill here ---
+The first image shows the evaluation results of all the runs in Wandb. As it can be seen in the accuracy and loss graph, there is one experiment that out performs the others "dutiful-blaze-9".
+
+```markdown
+![my_image](figures/wandb_evaluation.png)
+```
+
+The second image shows the training results, that compares metrics such as loss but also shows some chosen hyper parameters as well as computational results of the different experiments.
+
+```markdown
+![my_image](figures/wandb_train.png)
+```
+
+The third image below shows the Overview of the best performing experiment dutiful-blaze-9. In the overview, it is possible to see when the experiment was conducted, what user ran it as well as computational input and all the configurations of hyperparameters, models etc. This makes it easy to get an understanding of the experiment and use the same configurations to reproduce it. 
+
+```markdown
+![my_image](figures/experiment_overview.png)
+```
 
 ### Question 15
 
