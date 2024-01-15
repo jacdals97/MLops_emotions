@@ -19,5 +19,6 @@ WORKDIR /root/project
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install . --no-deps --no-cache-dir
 
+ENV PYTHONPATH "${PYTHONPATH}:/root/project"
 
 ENTRYPOINT ["python", "-u", "emotions/train_model.py"]
