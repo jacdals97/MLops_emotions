@@ -1,7 +1,7 @@
 steps:
 - name: python
   entrypoint: bash
-  args: ['-c', 'pip install -U dvc dvc[gs]; dvc pull;']
+  args: ['-c', 'pip install -U dvc dvc[gs]; dvc pull ./data;']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'dockerfiles/train_model.dockerfile', '.', '-t', 'gcr.io/emotions-410912/training']
 - name: 'gcr.io/cloud-builders/docker'

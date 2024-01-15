@@ -1,9 +1,9 @@
 # configuration of hyperparameters
-online: true
+online: false
 bucket: /gcs/emotions-410912/
 model_name: distilbert-base-uncased
 hyperparameters:
   batch_size: 16
-  num_train_epochs: 4
+  num_train_epochs: 1
   learning_rate: 2e-5
   weight_decay: 0.01

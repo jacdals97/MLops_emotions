@@ -8,7 +8,6 @@ RUN apt update && \
 RUN mkdir /root/project
 
 COPY emotions/ /root/project/emotions/
-COPY models/ /root/project/models
 COPY requirements.txt /root/project/requirements.txt
 COPY pyproject.toml /root/project/pyproject.toml
 COPY config/ /root/project/config/
@@ -21,4 +20,4 @@ RUN pip install . --no-deps --no-cache-dir
 
 ENV PYTHONPATH "${PYTHONPATH}:/root/project"
 
-ENTRYPOINT ["python", "-u", "emotions/train_model.py"]
+ENTRYPOINT ["sh", "entrypoint.sh"]
