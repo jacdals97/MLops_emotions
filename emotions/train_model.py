@@ -4,6 +4,7 @@ import evaluate
 import numpy as np
 from datasets import load_from_disk
 import hydra
+import wandb
 
 # Load the config file
 from dotenv import load_dotenv
@@ -105,6 +106,7 @@ def train_model(trainer):
 def save_model_and_tokenizer(trainer, tokenizer, save_path):
     trainer.save_model(f"{save_path}/best_model/")
     tokenizer.save_pretrained(f"{save_path}/best_model/")
+    wandb.save(f"{save_path}/best_model/*")
 
 
 if __name__ == "__main__":
