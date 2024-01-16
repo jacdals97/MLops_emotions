@@ -2,12 +2,26 @@ from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse
 from emotions.predict_model import Predictor
 import pandas as pd
+from contextlib import asynccontextmanager
 
 # Load the model
-model_name = "distilbert-base-uncased"
-model = Predictor(model_name)
+artifact = "best_model:v1"
 
-app = FastAPI()
+model = None
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global model
+    try:
+        # Load the ML model
+        model = Predictor(artifact)
+        yield
+    finally:
+        # Unload the ML model
+        model = None
+
+app = FastAPI(lifespan=lifespan)
+
 
 html = """
 <!DOCTYPE html>
@@ -64,7 +78,5 @@ async def websocket_endpoint(websocket: WebSocket):
         preds.score=preds.score*100
         await websocket.send_text(f"Message text was: {data} | With predicted label: {preds.label[0]} | And a probability of: {preds.score[0]} %")
 
-
-# run the model using uvicorn main:app --reload
         
 
