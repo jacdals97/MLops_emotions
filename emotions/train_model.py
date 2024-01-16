@@ -6,6 +6,8 @@ from datasets import load_from_disk
 import hydra
 import wandb
 
+run = wandb.init(reinit=True)
+
 # Load the config file
 from dotenv import load_dotenv
 from typing import Dict, Tuple
@@ -106,7 +108,9 @@ def train_model(trainer):
 def save_model_and_tokenizer(trainer, tokenizer, save_path):
     trainer.save_model(f"{save_path}/best_model/")
     tokenizer.save_pretrained(f"{save_path}/best_model/")
-    wandb.save(f"{save_path}/best_model/*")
+    artifact = wandb.Artifact(name="best_model", type="model")
+    artifact.add_dir(local_path=f"{save_path}/best_model/")  # Add dataset directory to artifact
+    run.log_artifact(artifact)
 
 
 if __name__ == "__main__":
