@@ -395,7 +395,13 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 15 fill here ---
+We have used Docker to make our project reproducible and scalable, giving it a consistent environment so that we are sure it will run the same way, not only locally on our computer, but for other users as well. To do so, we have developed two separate images: one for training and one for deployment. The training image sets up the base environment and configurations by installing the desired Python version and the required packages, and then starting a training run that ends up storing a model. The deployment image also sets up the desired environment and then loads the best performing model and deploys it to a Fast API application that is served on a simple webpage written in HTML. The deployment image is then pushed to a production environment in Google Cloud, ensuring that the model is running in a consistent environment.
+
+The process is to first write a Docker file, then build the docker image by running the Docker file, and at last running the Docker image and thereby building a Docker Container:
+
+Link to Docker file: https://github.com/jacdals97/MLops_emotions/blob/main/dockerfiles/train_model.dockerfile 
+Build docker image: docker build -f train_model.dockerfile . -t trainer:latest
+Run docker image: docker run --name experiment1 trainer:latest
 
 ### Question 16
 
