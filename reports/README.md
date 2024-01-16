@@ -131,9 +131,9 @@ s240190, s161749, s164521
 
 We used the third-party framework Transformers from Huggingface in our project. First of all, we used the Huggingface platform to find a suitable project, which was the emotion dataset of Twitter posts from Dair-AI. From the Transformers framework we used a variety of functionalities that made it easy to load data, train a model and do inference. We used the following functionalities:
 * Datasets: a powerful library that lets us load the Emotion data in a single line of code as well as easily store the raw and processed data
-* Autotokenizer: a class that contains tokenizers for all of Huggingface's pretrained model, and converts the input data into a format that the pretrained models can work with. We use the pre-trained model "distilbert-base-uncased" and the Autotokenizer converts the data from plain text to a set of Input Id's and Attention Masks.
+* Autotokenizer: a class that contains tokenizers for all of Huggingface's pretrained model, and converts the input data into a format that the pretrained models can work with. We can use different pre-trained model and the Autotokenizer converts the data from plain text to a set of Input Id's and Attention Masks.
 * Training Arguments: a class that allows us to define all the arguments that goes into training the model. We use it in combination with Hydra and Weights and Biasses to configure hyper parameters and manage experiments.
-* Trainer: a class that allows us to simplify the training process of the model by taking care of creating dataloaders, optimizer, computing loss, performing training and prediction step and returning relevant metrics, among other things.
+* Trainer: a class that allows us to simplify the training process of the model by taking care of creating dataloaders, optimizer, computing loss, performing training and prediction step and returning relevant metrics, among other things. It also integrates with Weights and Biasses for logging experiments.
 * Data Collator with Padding: a class that prepares batches of data for training transformer models, while handling cases of data that have different lengths. This is relevant for our Emotion data as some twitter messages might be long and some short, and by padding them to a common size, it creates a more efficient training process.
 * AutoModelForSequenceClassification: used together with from_pretrained() to make a class of the chosen pretrained classification model together with it's weights.
 * Pipeline: a class that helps us organize the inference by taking a model and tokenizer as input and returning a prediction. We have used the "text-classifcation" pipeline, which returns a label and a score when receiving text as input.
@@ -161,6 +161,8 @@ We used Conda as a Package Manager to handle our dependencies and have created a
 * make requirements
 * make dev_requirements
 
+We have also built a docker images that replicate the environment neccessary for training the model and serving the model.
+
 ### Question 5
 
 > **We expect that you initialized your project using the cookiecutter template. Explain the overall structure of your**
@@ -178,9 +180,9 @@ To organize our MLOPS project, we have created a project structure using Cookiec
 * .github/workflows: yml files that automates our workflows together with GitHub Actions making sure that everything works as intended when being pushed to the main branch of our GitHub repository.
 * tests: Includes files for running unit testing on our code
 * {{cookiecutter.repo_name}} / emotions: The folder that contains the actual code that loads and procceses the data, creates a model, trains the model on the data and makes predictions.
-* .dvc: Folder to set up data version control. Configured to work with storage in Google Drive or remote storage in Google Cloud.
+* .dvc: Folder to set up data version control. Configured to work with storage in Google Drive or remote storage in Google Cloud. By default we use remote storage in Google Cloud.
 * data: Folder where the data is located immediately after being loaded and processed, and then later removed again locally once it is pushed to dvc.
-* dockerfiles: Folder that contains several dockerfiles that are used to build images for training, prediction.
+* dockerfiles: Folder that contains several dockerfiles that are used to build images for training, prediction. We also store our cloudbuild files for building images in GCP here.
 * models: Folder where the model is stored once it has been trained, so that it can easily be loaded and used for prediction.
 * reports: Folder to document the entire project.
 
@@ -226,7 +228,7 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 >
 > Answer:
 
-In total we have implemented 3 tests that are testing the three critical components of our application:
+In total we have implemented 14 tests that are testing the three critical components of our application:
 * test_data: In order to test that the data is successfully loaded and processed, we test if the data exists, if it's being properly tokenized, and if all the labels are represented in the training data.
 * test_model: To test that the model works as expected, we create a random tensor and run it through the model to see if it's outputted in the correct size and format.
 * test_train: To test if the training code is working properly, we test that it loads the correct model, receives arguments through Hydra, loads the data, computes the expected metrics etc.
@@ -296,7 +298,7 @@ That way each group member had their own development branch and could work on di
 > *pipeline*
 >
 > Answer:
-We made use of DVC to manage storage and versioning of both data and models. To get started, we initially stored the data in Google Drive and then later on organized dvc to work with a Bucket in Google Cloud Storage. To manage this we wrote a config file to easily switch between these different storage locations. At the end of the day, we did not have any updates to our dataset, thus we did not actively apply versioning on the data and DVC only worked as a large scale storage solution. However, DVC works well when different users want to test different data or make changes to data, so that they can do so without interferring with other's work. As mentioned, we also applied DVC for storing and versioning our trained models in a GCS Bucket.
+We made use of DVC to manage storage and versioning of the data. To get started, we initially stored the data in Google Drive and then later on organized dvc to work with a Bucket in Google Cloud Storage. To manage this we wrote a config file to easily switch between these different storage locations. At the end of the day, we did not have any updates to our dataset, thus we did not actively apply versioning on the data and DVC only worked as a large scale storage solution. However, DVC works well when different users want to test different data or make changes to data, so that they can do so without interferring with other's work. 
 
 
 
@@ -314,7 +316,7 @@ We made use of DVC to manage storage and versioning of both data and models. To 
 >
 > Answer:
 
-We have organized our continuous integration workflow into two separate .yml files that execute specific events: one for doing unittesting and one testing the code format. We are running the format tests for both Ubuntu and Mac operating systems with Python version 3.11, while the unittests are also run for Windows. The tests are triggered whenever something is pushed or has a pull_request to the main, master and dev branches. As it can take some time to install dependencies and get data from dvc whenever the tests are triggered, we have made use of caching in GitHub to speed up this process. The unittests also returns a coverage report, and an example of this triggered workflow can be seen in this link to our [Github-Actions] (https://github.com/jacdals97/MLops_emotions/actions/runs/7499996928/job/20417842206). This CI workflow ensures that our code is up to standard and that is able to be run not only in our local environment, so that it is reproducable for new users.
+We have organized our continuous integration workflow into two separate .yml files that execute specific events: one for doing unittesting and one testing the code format. We are running both the format tests and unittests for Ubuntu, Mac and Windows operating systems with Python version 3.11. The tests are triggered whenever something is pushed or has a pull_request to the main, master and dev branches. As it can take some time to install dependencies and get data from dvc whenever the tests are triggered, we have made use of caching our dependencies in GitHub to speed up this process. The unittests also returns a coverage report, and an example of this triggered workflow can be seen in this link to our [Github-Actions] (https://github.com/jacdals97/MLops_emotions/actions/runs/7499996928/job/20417842206). This CI workflow ensures that our code is up to standard and that is able to be run not only in our local environment, so that it is reproducable for new users.
 
 ## Running code and tracking experiments
 
