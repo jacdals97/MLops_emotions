@@ -400,8 +400,14 @@ We have used Docker to make our project reproducible and scalable, giving it a c
 The process is to first write a Docker file, then build the docker image by running the Docker file, and at last running the Docker image and thereby building a Docker Container:
 
 Link to Docker file: https://github.com/jacdals97/MLops_emotions/blob/main/dockerfiles/train_model.dockerfile 
-Build docker image: docker build -f train_model.dockerfile . -t trainer:latest
-Run docker image: docker run --name experiment1 trainer:latest
+Build docker image: 
+```
+docker build -f train_model.dockerfile . -t trainer:latest
+```
+Run docker image: 
+```
+docker run --name experiment1 trainer:latest
+```
 
 ### Question 16
 
