@@ -397,7 +397,19 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 15 fill here ---
+We have used Docker to make our project reproducible and scalable, giving it a consistent environment so that we are sure it will run the same way, not only locally on our computer, but for other users as well. To do so, we have developed two separate images: one for training and one for deployment. The training image sets up the base environment and configurations by installing the desired Python version and the required packages, and then starting a training run that ends up storing a model. The deployment image also sets up the desired environment and then loads the best performing model and deploys it to a Fast API application that is served on a simple webpage written in HTML. The deployment image is then pushed to a production environment in Google Cloud, ensuring that the model is running in a consistent environment.
+
+The process is to first write a Docker file, then build the docker image by running the Docker file, and at last running the Docker image and thereby building a Docker Container:
+
+Link to Docker file: https://github.com/jacdals97/MLops_emotions/blob/main/dockerfiles/train_model.dockerfile 
+Build docker image: 
+```
+docker build -f train_model.dockerfile . -t trainer:latest
+```
+Run docker image: 
+```
+docker run --name experiment1 trainer:latest
+```
 
 ### Question 16
 
@@ -412,7 +424,13 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 16 fill here ---
+When we encountered bugs in the development of our code, we would usually follow this approach for debugging:
+* Understanding the source of the bug by looking into error messages and red lines in VS Code
+* If it is not an easy quick fix, google the problem, as someone has likely faced a similar problem and posted their solution online. [phind](https://www.phind.com/search?home=true) is a great AI search engine to help with this.
+* If a solution is still not found, look into the source code of package where the error occurs, as this can give a deeper understanding of what is necessary to build a work around.
+* Run the code in chunks to better understand if the error occurs in connection with other parts of the code.
+
+We did not apply profiling on the code, although the Transformer framework has their own build in functionality for optimizing performance/run time.
 
 ## Working in the cloud
 
@@ -428,8 +446,13 @@ The third image below shows the Overview of the best performing experiment dutif
 > *We used the following two services: Engine and Bucket. Engine is used for... and Bucket is used for...*
 >
 > Answer:
+We used a variety of GCP services, such as:
 
---- question 17 fill here ---
+* Buckets: a simple and cost-effective cloud based storage solution that lets you store and manage large amounts of data. We used this in combination with dvc to also have version control of the data in Google Cloud. In order to access the data in a secure way from e.g. a virtual machine and a docker container, we set up a service account with permission to access the bucket.
+* Artifact Registry: a single place in the cloud to manage container images and language packages, and allows users set up automated pipelines. We have used artifact registry to store our Docker Images, which has been very usefull as Dokcer Images take a long time to build and takes up a lot of space locally. 
+* Cloud Build: a powerfull tool to execute and automate builds in Google Cloud. In this project, Cloud Build was used by setting up a Trigger workflow that automatically builds a Docker Image and stores it in Artifact Registry whenever something is successfully pushed to the main or dev branch of the project's GitHub repository.
+* Vertex AI: a dedicated service for handling everything related to machine learning in the cloud. For this project, Vertex AI was used to train the model and store the output.
+* Cloud Run: a compute platform that lets you run containers directly on top of Google's scalable infrastructure. For this project, Cloud Run was applied to build and render a web app to serve the model and interact with the users.
 
 ### Question 18
 
@@ -444,7 +467,18 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 18 fill here ---
+We took advantage of the compute engine when we used Vertex AI to train the model. This worked by automatically creating a virtual machine with the specifications defined in a configuration file and executing the training docker image. One of the smart things about Vertex AI is that it automatically shuts down the virtual machine when the image has been executed, so that you don't spend unnecessary money. In order to run the training image with Vertex AI, the following command can be executed:
+
+**Update with actual command**
+
+```
+gcloud ai custom-jobs create \
+    --region=europe-west1 \
+    --display-name=test-run \
+    --config=config.yaml
+```
+
+The config.yaml file specifies the desired hardward, among other things. We have primarily trained on the 'n1-highmem-2' CPU, as it took several days to get a quota approved for using the 'N1-standard-8 NVIDIA_TESLA_T4' GPU
 
 ### Question 19
 
@@ -453,7 +487,8 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 19 fill here ---
+![my_image](figures/bucket_1.png)
+![my_image](figures/bucket_2.png)
 
 ### Question 20
 
@@ -462,7 +497,7 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 20 fill here ---
+![my_image](figures/registry.png)
 
 ### Question 21
 
@@ -487,7 +522,17 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 22 fill here ---
+For deployment we wrapped our model into an application using Fast API and then we deployed it in the cloud using GCP's Cloud Run service. **Write a bit more about the Google Cloud setup**
+* Load the model and build the API Request using Fast API
+* Wrap it in HTML code to build a web interface for the application
+* Write a Docker file and build the Docker image belonging to the app
+* Tag and push the image to Artifact Registry in Google Cloud
+* Set up the Cloud Run Service by connecting to the Docker Image, making it continuous and giving it a container port.
+
+The application can be accessed vis this [link]() and for the users to interact with it, they simply write in a text, which can be a comment on Twitter, Trustpilot, Tripadvisor or from other social media and business review platform. The application then returns the sentiment of the text. A user can also make the following command to invoke the service:
+```
+curl 
+``````
 
 ### Question 23
 
@@ -516,7 +561,7 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 24 fill here ---
+At the time of writing (Jan. 17, 3pm), 70.83 DKK were spent on Google Cloud. Tho cost was primarily driven by Artifact Registry, followed by Vulnerability Scanning and training with Vertex AI. Compute Engine and Cloud Storage have very small costs. 
 
 ## Overall discussion of project
 
@@ -551,7 +596,13 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 26 fill here ---
+We met several challenges during the project.
+
+
+
+
+
+
 
 ### Question 27
 
@@ -568,4 +619,22 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
---- question 27 fill here ---
+On a general note, all team members worked together throughout the entire project and supported each other across all the different task. However, to ensure a smooth and quick development, each member worked primarily with the following topics:
+
+s240190:
+* Set up model training and inference with connections to Huggingface and Wandb
+* Set up Github repository with Cookiecutter template as well as Github Actions, Workflows and Triggers
+* Build Docker images and push them to Artifact Registry
+* Train model with Vertex AI
+* Connect DVC to the Docker Images
+
+s161749:
+* Create web application with Fast API and HTML code
+* Deploy the web application with Cloud Run
+* Set up the entire Google Cloud Platform Project and manage this
+
+s164521:
+* Load and process data from Huggingface
+* Configure hyperparameters with Hydra
+* Write unit tests
+* Report writing
