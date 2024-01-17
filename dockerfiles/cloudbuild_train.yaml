@@ -3,8 +3,8 @@ steps:
   entrypoint: bash
   args: ['-c', 'pip install -U dvc dvc[gs]; dvc pull ./data;']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-f', 'dockerfiles/train_model.dockerfile', '.', '-t', 'gcr.io/emotions-410912/training']
+  args: ['build', '-f', 'dockerfiles/train_model.dockerfile', '.', '-t', 'gcr.io/emotions-410912/training_$BRANCH_NAME']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/emotions-410912/training']
+  args: ['push', 'gcr.io/emotions-410912/training_$BRANCH_NAME']
 options:
     logging: CLOUD_LOGGING_ONLY

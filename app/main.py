@@ -9,6 +9,7 @@ artifact = "best_model:v1"
 
 model = None
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global model
@@ -19,6 +20,7 @@ async def lifespan(app: FastAPI):
     finally:
         # Unload the ML model
         model = None
+
 
 app = FastAPI(lifespan=lifespan)
 
@@ -70,13 +72,12 @@ async def websocket_endpoint(websocket: WebSocket):
     while True:
         data = await websocket.receive_text()
         preds = model.predict(data)
-        preds = preds[0] # removes the list thing
-        preds=pd.DataFrame.from_dict(preds,orient='index')
-        preds=preds.T
-        preds=preds.astype({'score': 'float'})
-        preds=preds.round(3)
-        preds.score=preds.score*100
-        await websocket.send_text(f"Message text was: {data} | With predicted label: {preds.label[0]} | And a probability of: {preds.score[0]} %")
-
-        
-
+        preds = preds[0]  # removes the list thing
+        preds = pd.DataFrame.from_dict(preds, orient="index")
+        preds = preds.T
+        preds = preds.astype({"score": "float"})
+        preds = preds.round(3)
+        preds.score = preds.score * 100
+        await websocket.send_text(
+            f"Message text was: {data} | With predicted label: {preds.label[0]} | And a probability of: {preds.score[0]} %"
+        )
