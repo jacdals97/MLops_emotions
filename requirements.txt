@@ -13,3 +13,4 @@ websockets
 pandas
 fastapi
 uvicorn
+google-cloud-secret-manager

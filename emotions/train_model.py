@@ -9,9 +9,22 @@ import wandb
 # Load the config file
 from dotenv import load_dotenv
 from typing import Dict, Tuple
-
+import os
+from google.cloud import secretmanager
 
 load_dotenv()
+
+# Load the environment variables
+def get_secret(project_id, secret_id, version_id="latest"):
+    client = secretmanager.SecretManagerServiceClient()
+    name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
+    response = client.access_secret_version(name=name)
+    return response.payload.data.decode("UTF-8")
+
+project_id = "emotions-410912"
+secret_id = "WANDB_API_KEY"
+wandb_api_key = get_secret(project_id, secret_id)
+os.environ["WANDB_API_KEY"] = wandb_api_key
 
 # Load evaluation metrics
 accuracy = evaluate.load("accuracy")
