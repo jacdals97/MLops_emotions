@@ -596,7 +596,13 @@ curl
 >
 > Answer:
 
---- question 26 fill here ---
+We met several challenges during the project.
+
+
+
+
+
+
 
 ### Question 27
 
