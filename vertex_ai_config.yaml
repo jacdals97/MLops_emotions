@@ -1,0 +1,13 @@
+workerPoolSpecs:
+  - machineSpec:
+      machineType: n1-highmem-32
+    replicaCount: 1
+    containerSpec:
+      imageUri: gcr.io/emotions-410912/training_dev_jacob:latest # change this to your own image
+      env:
+        - name: WANDB_ENTITY
+          value: mlops_group5
+        - name: WANDB_PROJECT
+          value: emotion-classification
+      command: ["python", "-u", "emotions/train_model.py", experiment.hyperparameters.num_train_epochs=1]
+serviceAccount: wandb-access@emotions-410912.iam.gserviceaccount.com
