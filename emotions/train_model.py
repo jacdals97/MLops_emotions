@@ -45,6 +45,7 @@ def main(
     data_collator_class=DataCollatorWithPadding,
     trainer_class=Trainer,
 ):
+    run = wandb.init(reinit=True)
     model_name = cfg.experiment.model_name
     save_path = f"models/{model_name}"
     model = load_model(model_loader, model_name)
@@ -54,7 +55,7 @@ def main(
     training_args = get_training_args(cfg, save_path)
     trainer = initialize_trainer(trainer_class, model, training_args, dataset, tokenizer, data_collator)
     train_model(trainer)
-    save_model_and_tokenizer(trainer, tokenizer, save_path)
+    save_model_and_tokenizer(trainer, tokenizer, save_path, run)
 
 
 def load_model(model_loader, model_name):
@@ -104,7 +105,7 @@ def train_model(trainer):
     trainer.train()
 
 
-def save_model_and_tokenizer(trainer, tokenizer, save_path):
+def save_model_and_tokenizer(trainer, tokenizer, save_path, run):
     trainer.save_model(f"{save_path}/best_model/")
     tokenizer.save_pretrained(f"{save_path}/best_model/")
     artifact = wandb.Artifact(name="best_model", type="model")
@@ -113,5 +114,4 @@ def save_model_and_tokenizer(trainer, tokenizer, save_path):
 
 
 if __name__ == "__main__":
-    run = wandb.init(reinit=True)
     main()
