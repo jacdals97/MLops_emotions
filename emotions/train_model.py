@@ -10,8 +10,6 @@ import wandb
 from dotenv import load_dotenv
 from typing import Dict, Tuple
 
-run = wandb.init(reinit=True)
-
 
 load_dotenv()
 
@@ -47,6 +45,7 @@ def main(
     data_collator_class=DataCollatorWithPadding,
     trainer_class=Trainer,
 ):
+    run = wandb.init(reinit=True)
     model_name = cfg.experiment.model_name
     save_path = f"models/{model_name}"
     model = load_model(model_loader, model_name)
