@@ -7,8 +7,7 @@
 We (hypothetically) work at an AI analytics company where we have clients from the private and public sectors who hire us to do analytics for them.
 
 The overall goal of the project is to create an online application where consultants at our company can do some quick and impressive NLP analytics for clients. 
-In the application, the consultant will be able to upload a .csv file containing text-bits for emotion classification. The consultant will upload a file with the following variables:
-ID and text, and after running the model, the application will return the .csv file with an additional "emotion"-variable containing the predicted emotion (sadness, joy, love, anger, fear, surprise).
+In the application, the consultant will be able to upload a text string for emotion classification. The app takes a text string, and returns an "emotion prediction" containing the predicted emotion (sadness, joy, love, anger, fear, surprise).
   
 
 A typical use case could be an informal meeting between a consultant and a potential new client, where the consultant takes some publicly available text data relevant to the client (for example comments from reviews on Truspilot) 
