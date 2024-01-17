@@ -28,6 +28,8 @@ steps:
   - '3600'
   - '--cpu'
   - '2'
+  - '--update-secrets=WANDB_API_KEY=WANDB_API_KEY:latest'
+  - '--set-env-vars=[WANDB_ENTITY=mlops_group5,WANDB_PROJECT=emotion-classification]'
 images:
 - 'gcr.io/emotions-410912/predict' 
 options:
