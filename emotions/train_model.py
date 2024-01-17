@@ -6,13 +6,25 @@ from datasets import load_from_disk
 import hydra
 import wandb
 
-run = wandb.init(reinit=True)
-
 # Load the config file
 from dotenv import load_dotenv
 from typing import Dict, Tuple
+import os
+from google.cloud import secretmanager
 
 load_dotenv()
+
+# Load the environment variables
+def get_secret(project_id, secret_id, version_id="latest"):
+    client = secretmanager.SecretManagerServiceClient()
+    name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
+    response = client.access_secret_version(name=name)
+    return response.payload.data.decode("UTF-8")
+
+project_id = "emotions-410912"
+secret_id = "WANDB_API_KEY"
+wandb_api_key = get_secret(project_id, secret_id)
+os.environ["WANDB_API_KEY"] = wandb_api_key
 
 # Load evaluation metrics
 accuracy = evaluate.load("accuracy")
@@ -46,8 +58,9 @@ def main(
     data_collator_class=DataCollatorWithPadding,
     trainer_class=Trainer,
 ):
+    run = wandb.init(reinit=True)
     model_name = cfg.experiment.model_name
-    save_path =  f"models/{model_name}"
+    save_path = f"models/{model_name}"
     model = load_model(model_loader, model_name)
     tokenizer = load_tokenizer(tokenizer_class, model_name)
     data_collator = load_data_collator(data_collator_class, tokenizer)
@@ -55,7 +68,7 @@ def main(
     training_args = get_training_args(cfg, save_path)
     trainer = initialize_trainer(trainer_class, model, training_args, dataset, tokenizer, data_collator)
     train_model(trainer)
-    save_model_and_tokenizer(trainer, tokenizer, save_path)
+    save_model_and_tokenizer(trainer, tokenizer, save_path, run)
 
 
 def load_model(model_loader, model_name):
@@ -105,7 +118,7 @@ def train_model(trainer):
     trainer.train()
 
 
-def save_model_and_tokenizer(trainer, tokenizer, save_path):
+def save_model_and_tokenizer(trainer, tokenizer, save_path, run):
     trainer.save_model(f"{save_path}/best_model/")
     tokenizer.save_pretrained(f"{save_path}/best_model/")
     artifact = wandb.Artifact(name="best_model", type="model")
