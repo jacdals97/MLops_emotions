@@ -9,5 +9,5 @@ workerPoolSpecs:
           value: mlops_group5
         - name: WANDB_PROJECT
           value: emotion-classification
-      command: ["python", "-u", "emotions/train_model.py", experiment.hyperparameters.num_train_epochs=1]
+      command: ["python", "-u", "emotions/train_model.py"]
 serviceAccount: wandb-access@emotions-410912.iam.gserviceaccount.com
