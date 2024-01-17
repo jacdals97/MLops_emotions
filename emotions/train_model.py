@@ -6,11 +6,12 @@ from datasets import load_from_disk
 import hydra
 import wandb
 
-run = wandb.init(reinit=True)
-
 # Load the config file
 from dotenv import load_dotenv
 from typing import Dict, Tuple
+
+run = wandb.init(reinit=True)
+
 
 load_dotenv()
 
