@@ -596,10 +596,11 @@ At the time of writing (Jan. 17, 3pm), 70.83 DKK were spent on Google Cloud. Tho
 >
 > Answer:
 
-We met several challenges during the project.
+We faced several challenges during the project, but none that we were not able to overcome in cooperation with each other. One challenge was the fact that we never got a GPU quota for Vertex AI approved by GCP, which meant that training our model was a quite slow process. We also faced several challenges with respect to Docker, as building an image would take up a lot of local disk space and be quite slow when installing requirements. We also spend quite a lot of time making Docker work smoothly together with DVC and Cloud Build.
 
+Throughout the project, as many topics were new to us, we sometimes felt that we were missing some best practice tips, e.g. on how to handle model versioning. In the end we stored our models in Weights and Biases as we encountered issues on accessing models from GCP Buckets, which did not work together with Huggingface's Transformer framework. When we then stored the models in Weights and Biases, we would like to have had more practive with accessing the best performing models in an automated fashion. 
 
-
+We also encountered some doubts in regards to the CI/CD setup in the Google Cloud Platform, where we were also missing some best practice tips. As training locally on some of our computers, we wanted to automatically build a training image when each of us pushed our local development branches, so that we could submit a Vertex AI job and train on a virtual machine. To do so we created several Cloud Build Triggers. However, this was a major cost driver, and at the end of the day was probably not the best approach as a training image would be constructed whenever we pushed a simple change such as an update to a read_me file. 
 
 
 
