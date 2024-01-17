@@ -48,7 +48,7 @@ def test_get_training_args():
     cfg.hyperparameters.num_train_epochs = 3
     cfg.hyperparameters.weight_decay = 0.01
     cfg.online = False
-    save_path = f"models/distilbert-base-uncased"
+    save_path = "models/distilbert-base-uncased"
     training_args = get_training_args(cfg, save_path)
     assert training_args.learning_rate == 0.01
     assert training_args.per_device_train_batch_size == 16
@@ -86,7 +86,7 @@ def test_train_model(mock_trainer):
 @patch("emotions.train_model.Trainer")
 def test_save_model_and_tokenizer(mock_trainer):
     tokenizer = Mock()
-    save_path = f"models/distilbert-base-uncased"
+    save_path = "models/distilbert-base-uncased"
     save_model_and_tokenizer(mock_trainer, tokenizer, save_path)
     mock_trainer.save_model.assert_called_once_with(f"{save_path}/best_model/")
     tokenizer.save_pretrained.assert_called_once_with(f"{save_path}/best_model/")

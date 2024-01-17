@@ -47,7 +47,7 @@ def main(
     trainer_class=Trainer,
 ):
     model_name = cfg.experiment.model_name
-    save_path =  f"models/{model_name}"
+    save_path = f"models/{model_name}"
     model = load_model(model_loader, model_name)
     tokenizer = load_tokenizer(tokenizer_class, model_name)
     data_collator = load_data_collator(data_collator_class, tokenizer)

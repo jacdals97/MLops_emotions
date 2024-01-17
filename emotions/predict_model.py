@@ -6,8 +6,9 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-entity = os.getenv('WANDB_ENTITY')
-project = os.getenv('WANDB_PROJECT')
+entity = os.getenv("WANDB_ENTITY")
+project = os.getenv("WANDB_PROJECT")
+
 
 class Predictor:
     """
@@ -28,7 +29,7 @@ class Predictor:
 
         api = wandb.Api()
         artifact = api.artifact(f"{entity}/{project}/{artifact}")
-        artifact_dir = artifact.download(f"models/best_model/")
+        artifact_dir = artifact.download("models/best_model/")
 
         # Load the model
         model = AutoModelForSequenceClassification.from_pretrained(artifact_dir)
