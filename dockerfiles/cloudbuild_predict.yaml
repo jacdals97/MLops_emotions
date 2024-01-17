@@ -30,3 +30,5 @@ steps:
   - '2'
 images:
 - 'gcr.io/emotions-410912/predict' 
+options:
+    logging: CLOUD_LOGGING_ONLY
