@@ -613,4 +613,14 @@ curl
 >
 > Answer:
 
---- question 27 fill here ---
+On a general note, all team members worked together throughout the entire project and supported each other across all the different task. However, to ensure a smooth and quick development, each member worked primarily with the following topics:
+
+s240190:
+* Set up model training and inference with connections to Huggingface and Wandb
+* Set up Github repository with Cookiecutter template as well as Github Actions, Workflows and Triggers
+* Build Docker images and push them to Artifact Registry
+* Train model with Vertex AI
+* Connect DVC to 
+s161749:
+
+s164521:
