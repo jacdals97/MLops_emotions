@@ -29,5 +29,5 @@ jobs:
         pip install ruff
     - name: Check with ruff
       run: |
-        ruff check jacob_mnist/
-        ruff format jacob_mnist/
+        ruff check .
+        ruff format .
