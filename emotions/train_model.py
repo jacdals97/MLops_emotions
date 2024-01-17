@@ -4,6 +4,9 @@ import evaluate
 import numpy as np
 from datasets import load_from_disk
 import hydra
+import wandb
+
+run = wandb.init(reinit=True)
 
 # Load the config file
 from dotenv import load_dotenv
@@ -35,7 +38,7 @@ def compute_metrics(eval_pred: Tuple[np.ndarray, np.ndarray]) -> Dict[str, float
     }
 
 
-@hydra.main(config_path="../config", config_name="config.yaml", version_base="1.3")
+@hydra.main(config_path="../config", config_name="default_config.yaml", version_base="1.3")
 def main(
     cfg,
     model_loader=ModelLoader,
@@ -43,15 +46,16 @@ def main(
     data_collator_class=DataCollatorWithPadding,
     trainer_class=Trainer,
 ):
-    model_name = "distilbert-base-uncased"
+    model_name = cfg.experiment.model_name
+    save_path =  f"models/{model_name}"
     model = load_model(model_loader, model_name)
     tokenizer = load_tokenizer(tokenizer_class, model_name)
     data_collator = load_data_collator(data_collator_class, tokenizer)
     dataset = load_dataset("./data/processed/")
-    training_args = get_training_args(cfg, model_name)
+    training_args = get_training_args(cfg, save_path)
     trainer = initialize_trainer(trainer_class, model, training_args, dataset, tokenizer, data_collator)
     train_model(trainer)
-    save_model_and_tokenizer(trainer, tokenizer, model_name)
+    save_model_and_tokenizer(trainer, tokenizer, save_path)
 
 
 def load_model(model_loader, model_name):
@@ -70,14 +74,14 @@ def load_dataset(path):
     return load_from_disk(path)
 
 
-def get_training_args(cfg, model_name):
+def get_training_args(cfg, save_path):
     return TrainingArguments(
-        output_dir=f"models/{model_name}",
-        learning_rate=cfg.hyperparameters.learning_rate,
-        per_device_train_batch_size=cfg.hyperparameters.batch_size,
-        per_device_eval_batch_size=cfg.hyperparameters.batch_size,
-        num_train_epochs=cfg.hyperparameters.num_train_epochs,
-        weight_decay=cfg.hyperparameters.weight_decay,
+        output_dir=save_path,
+        learning_rate=cfg.experiment.hyperparameters.learning_rate,
+        per_device_train_batch_size=cfg.experiment.hyperparameters.batch_size,
+        per_device_eval_batch_size=cfg.experiment.hyperparameters.batch_size,
+        num_train_epochs=cfg.experiment.hyperparameters.num_train_epochs,
+        weight_decay=cfg.experiment.hyperparameters.weight_decay,
         evaluation_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,
@@ -101,9 +105,12 @@ def train_model(trainer):
     trainer.train()
 
 
-def save_model_and_tokenizer(trainer, tokenizer, model_name):
-    trainer.save_model(f"models/{model_name}/best_model/")
-    tokenizer.save_pretrained(f"models/{model_name}/best_model/")
+def save_model_and_tokenizer(trainer, tokenizer, save_path):
+    trainer.save_model(f"{save_path}/best_model/")
+    tokenizer.save_pretrained(f"{save_path}/best_model/")
+    artifact = wandb.Artifact(name="best_model", type="model")
+    artifact.add_dir(local_path=f"{save_path}/best_model/")  # Add dataset directory to artifact
+    run.log_artifact(artifact)
 
 
 if __name__ == "__main__":

@@ -9,3 +9,7 @@ evaluate
 scikit-learn
 python-dotenv
 hydra-core
+websockets
+pandas
+fastapi
+uvicorn
