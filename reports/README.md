@@ -561,7 +561,7 @@ curl
 >
 > Answer:
 
---- question 24 fill here ---
+At the time of writing (Jan. 17, 3pm), 70.83 DKK were spent on Google Cloud. Tho cost was primarily driven by Artifact Registry, followed by Vulnerability Scanning and training with Vertex AI. Compute Engine and Cloud Storage have very small costs. 
 
 ## Overall discussion of project
 
@@ -626,7 +626,15 @@ s240190:
 * Set up Github repository with Cookiecutter template as well as Github Actions, Workflows and Triggers
 * Build Docker images and push them to Artifact Registry
 * Train model with Vertex AI
-* Connect DVC to 
+* Connect DVC to the Docker Images
+
 s161749:
+* Create web application with Fast API and HTML code
+* Deploy the web application with Cloud Run
+* Set up the entire Google Cloud Platform Project and manage this
 
 s164521:
+* Load and process data from Huggingface
+* Configure hyperparameters with Hydra
+* Write unit tests
+* Report writing
