@@ -22,13 +22,7 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Cache pip
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+        cache: 'pip'
     - name: check echo
       run: 'echo "$SSH_KEY" > key.json'
       env:
@@ -42,7 +36,7 @@ jobs:
     - uses: iterative/setup-dvc@v1
     - name: Get data
       env:
-        GOOGLE_APPLICATION_CREDENTIALS: ./key.json
+        GOOGLE_APPLICATION_CREDENTIALS: key.json
       run: |
         dvc pull
     - name: Test with pytest

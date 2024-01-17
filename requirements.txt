@@ -9,3 +9,8 @@ evaluate
 scikit-learn
 python-dotenv
 hydra-core
+websockets
+pandas
+fastapi
+uvicorn
+google-cloud-secret-manager

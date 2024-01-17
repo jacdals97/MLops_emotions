@@ -1,6 +1,13 @@
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import pipeline
 from typing import Union, List, Dict
+import wandb
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+entity = os.getenv("WANDB_ENTITY")
+project = os.getenv("WANDB_PROJECT")
 
 
 class Predictor:
@@ -11,19 +18,24 @@ class Predictor:
         model_name (str): The name of the model to load.
     """
 
-    def __init__(self, model_name: str):
+    def __init__(self, artifact: str):
         """
         The constructor for Predictor class.
 
         Parameters:
             model_name (str): The name of the model to load.
         """
-        self.model_name = model_name
+        self.artifact = artifact
+
+        api = wandb.Api()
+        artifact = api.artifact(f"{entity}/{project}/{artifact}")
+        artifact_dir = artifact.download("models/best_model/")
+
         # Load the model
-        model = AutoModelForSequenceClassification.from_pretrained(f"models/{self.model_name}/best_model/")
+        model = AutoModelForSequenceClassification.from_pretrained(artifact_dir)
 
         # Load the tokenizer
-        tokenizer = AutoTokenizer.from_pretrained(f"models/{self.model_name}/best_model/")
+        tokenizer = AutoTokenizer.from_pretrained(artifact_dir)
         self.classifier = pipeline("text-classification", model=model, tokenizer=tokenizer)
 
     def predict(self, data: Union[str, List[str]]) -> List[Dict[str, float]]:
@@ -42,7 +54,7 @@ class Predictor:
 
 if __name__ == "__main__":
     # Load the model
-    model_name = "distilbert-base-uncased"
-    model = Predictor(model_name)
+    artifact = "best_model:v1"
+    model = Predictor(artifact)
     print(model.predict("I am happy"))
     print(model.predict("I am sad"))
