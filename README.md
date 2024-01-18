@@ -10,9 +10,9 @@ The overall goal of the project is to create an online application where consult
 In the application, the consultant will be able to upload a text string for emotion classification. The web app takes a text string, and returns an "emotion prediction" containing the predicted emotion (sadness, joy, love, anger, fear, surprise).
   
 
-A typical use case could be an informal meeting between a consultant and a potential new client, where the consultant takes some publicly available text data relevant to the client (for example comments from reviews on Truspilot) and does some quick analysis on this to impress the potential client.  
+A typical use case could be an informal meeting between a consultant and a potential new client, where the consultant takes some publicly available text data relevant to the client (for example comments from reviews on Trustpilot) 
+and does some quick analysis on this to impress the potential client.  
 
-The web application can be accessed on: https://my-fastapi-o3qqudwy2q-ew.a.run.app 
 
 *B. What framework are you going to use and do you intend to include the framework into your project?*
 
@@ -28,7 +28,7 @@ https://huggingface.co/datasets/dair-ai/emotion/blob/main/README.md
 
 *D. What models do you expect to use?*
 
-We expect to use the DistilBERT base model (uncased) Transformer model from Huggingface.  
+We expect to use the Microsoft E5 Transformer model from Huggingface.  
 
 ## How to submit jobs to Vertex AI
 We provide a file called *vertex_ai_config.yaml* which contains all the necessary arguments that can be passed to the Vertex AI platform including selecting an image, setting environment variables, accessing secrets and specifying hyperparameters for a job.
@@ -38,24 +38,6 @@ gcloud ai custom-jobs create \
     --display-name=<run_name> \
     --config=vertex_ai_config.yaml
 ```
-
-## How to build, tag and push FastAPI image to Google Cloud and deploy using Cloud Run
-Run the following arguments:
-```bash
-docker build -f dockerfiles/predict_model.dockerfile  -t < name of image > .
-docker tag < name of image > gcr.io/< project id >/< name of image >
-docker push gcr.io/< project id >/< name of image >
-```
-If you have access to the Google Cloud project: 
-Navigate to Cloud Run and select "create service" and 
-* Select image just sent to Artifact Registry
-* Choose appropriate region (in europe)
-* Change maximum number of instances to 10
-* Allow unauthenticated invocations
-* Choose container port 8000
-* Set memory to 8GB and CPU to 2
-* Set request timeout to 3600
-Create service
 
 ## Project structure
 
