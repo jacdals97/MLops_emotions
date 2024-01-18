@@ -45,34 +45,30 @@ The directory structure of the project looks like this:
 
 ```txt
 
+├── .dvc                 <- DVC setup to access and version data
+│
+├── .github              
+│   └── workflows        <- Workflows that run github actions tests
+│
+├── app                  <- FastAPI app for emotion prediction 
+│
+├── config               <- Configurations for the experiments 
+│
 ├── Makefile             <- Makefile with convenience commands like `make data` or `make train`
-├── README.md            <- The top-level README for developers using this project.
-├── data
-│   ├── processed        <- The final, canonical data sets for modeling.
-│   └── raw              <- The original, immutable data dump.
+├── README.md            <- The top-level README for developers using this project.   
+│ 
 │
-├── docs                 <- Documentation folder
-│   │
-│   ├── index.md         <- Homepage for your documentation
-│   │
-│   ├── mkdocs.yml       <- Configuration file for mkdocs
-│   │
-│   └── source/          <- Source directory for documentation files
+├── dockerfiles          <- dockerfiles and cloudbuild.yaml files for building images locally and in cloud   
 │
-├── models               <- Trained and serialized models, model predictions, or model summaries
 │
-├── notebooks            <- Jupyter notebooks.
-│
-├── pyproject.toml       <- Project configuration file
-│
-├── reports              <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures          <- Generated graphics and figures to be used in reporting
+├── reports              <- Final project report
+│   └── figures          <- Figures for project report
 │
 ├── requirements.txt     <- The requirements file for reproducing the analysis environment
 |
 ├── requirements_dev.txt <- The requirements file for reproducing the analysis environment
 │
-├── tests                <- Test files
+├── tests                <- Test scripts
 │
 ├── emotions  <- Source code for use in this project.
 │   │

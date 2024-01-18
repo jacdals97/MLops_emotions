@@ -525,7 +525,7 @@ The config.yaml file specifies the desired hardward, among other things. We have
 
 ![my_image](figures/Buildhistory.png)
 
-### Question 22 DANIEL START HERE
+### Question 22 
 
 > **Did you manage to deploy your model, either in locally or cloud? If not, describe why. If yes, describe how and**
 > **preferably how you invoke your deployed service?**
@@ -539,19 +539,21 @@ The config.yaml file specifies the desired hardward, among other things. We have
 >
 > Answer:
 
-For deployment we wrapped our model into an application using Fast API and then we deployed it in the cloud using GCP's Cloud Run service. **Write a bit more about the Google Cloud setup**
-* Load the model and build the API Request using Fast API
-* Wrap it in HTML code to build a web interface for the application
-* Write a Docker file and build the Docker image belonging to the app
-* Tag and push the image to Artifact Registry in Google Cloud
-* Set up the Cloud Run Service by connecting to the Docker Image, making it continuous and giving it a container port.
+We developed the app locally using FastAPI and websockets, building on top of code found here: https://fastapi.tiangolo.com/vi/advanced/websockets/
+We added the predict functionality using the previously trained model, which we load from Wandb. 
 
-The application can be accessed vis this [link]() and for the users to interact with it, they simply write in a text, which can be a comment on Twitter, Trustpilot, Tripadvisor or from other social media and business review platform. The application then returns the sentiment of the text. A user can also make the following command to invoke the service:
-```
-docker build -f dockerfiles/predict_model.dockerfile  -t my_fastapi .
-docker tag my_fastapi gcr.io/emotions-410912/my_fastapi
-docker push gcr.io/emotions-410912/my_fastapi
-``````
+For deployment we build the docker image locally, tag it and push it to the Artifact Registry on GCP. 
+In the cloud using GCP's Cloud Run service, we deployed the model. Several settings were changed from the defaults to ensure that the app would run:
+* Allocate enoguh memory for the large image (3GB)
+* Reduce the max number of instances allowed, since each instance needs enough memory to contain the image
+* Allow unauthenticated invocation (our company has plenty of ressources, so top management does not mind it if people outside the company use the service)
+* Set request timeout to the maximum of 3600 seconds. Sometimes the websocket framework might close if the request timeout is too low. 
+
+The application can be accessed vis this [link](). The users simply write in a text, which can be a comment on Twitter, Trustpilot, Tripadvisor or from other social media and business review platform. The application then returns the emotion of the text with a predicted probability. 
+
+
+
+
 
 ### Question 23
 
