@@ -77,11 +77,11 @@ end of the project.
 * [ check ] Calculate the coverage.
 * [ check ] Get some continuous integration running on the github repository
 * [ check ] Create a data storage in GCP Bucket for you data and preferable link this with your data version control setup
-* [ ] Create a trigger workflow for automatically building your docker images
+* [ check ] Create a trigger workflow for automatically building your docker images
 * [ ] Get your model training in GCP using either the Engine or Vertex AI
 * [ check ] Create a FastAPI application that can do inference using your model
 * [ ] If applicable, consider deploying the model locally using torchserve
-* [ ] Deploy your model in GCP using either Functions or Run as the backend
+* [ check ] Deploy your model in GCP using either Functions or Run as the backend
 
 ### Week 3
 
@@ -94,9 +94,9 @@ end of the project.
 
 ### Additional
 
-* [ ] Revisit your initial project description. Did the project turn out as you wanted?
-* [ ] Make sure all group members have a understanding about all parts of the project
-* [ ] Uploaded all your code to github
+* [ check ] Revisit your initial project description. Did the project turn out as you wanted?
+* [ check ] Make sure all group members have a understanding about all parts of the project
+* [ check ] Uploaded all your code to github
 
 ## Group information
 
@@ -129,16 +129,15 @@ s240190, s161749, s164521
 >
 > Answer:
 
-**Too long: 342 words**
+We used the third-party frameworks from Huggingface. First we found a suitable dataset for our project inside their Datasets collection. From here we chose to work with their Transformers framework that made it easy to load data, train a model and do inference. 
 
-We used the third-party framework Transformers from Huggingface in our project. First of all, we used the Huggingface platform to find a suitable project, which was the emotion dataset of Twitter posts from Dair-AI. From the Transformers framework we used a variety of functionalities that made it easy to load data, train a model and do inference. We used the following functionalities:
-* Datasets: a powerful library that lets us load the Emotion data in a single line of code as well as easily store the raw and processed data
-* Autotokenizer: a class that contains tokenizers for all of Huggingface's pretrained model, and converts the input data into a format that the pretrained models can work with. We can use different pre-trained model and the Autotokenizer converts the data from plain text to a set of Input Id's and Attention Masks.
-* Training Arguments: a class that allows us to define all the arguments that goes into training the model. We use it in combination with Hydra and Weights and Biasses to configure hyper parameters and manage experiments.
-* Trainer: a class that allows us to simplify the training process of the model by taking care of creating dataloaders, optimizer, computing loss, performing training and prediction step and returning relevant metrics, among other things. It also integrates with Weights and Biasses for logging experiments.
-* Data Collator with Padding: a class that prepares batches of data for training transformer models, while handling cases of data that have different lengths. This is relevant for our Emotion data as some twitter messages might be long and some short, and by padding them to a common size, it creates a more efficient training process.
+We used the following functionalities:
+* Datasets: a powerful library that lets us load the data in a single line of code
+* Autotokenizer: contains tokenizers for all of Huggingface's pretrained models
+* Training Arguments: defines all the arguments that goes into training the model. We use it in combination with Hydra and Weights and Biasses to configure hyperparameters and manage experiments.
+* Trainer: simplifies the training process of the model by taking care of creating dataloaders, optimizer, computing loss, performing training and prediction step and returning relevant metrics, among other things. It also integrates with Weights and Biasses for logging experiments.
 * AutoModelForSequenceClassification: used together with from_pretrained() to make a class of the chosen pretrained classification model together with it's weights.
-* Pipeline: a class that helps us organize the inference by taking a model and tokenizer as input and returning a prediction. We have used the "text-classifcation" pipeline, which returns a label and a score when receiving text as input.
+* Pipeline: organizes the inference by taking a model and tokenizer as input and returning a prediction. We have used the "text-classifcation" pipeline, which returns a label and a score when receiving text as input.
 
 ## Coding environment
 
