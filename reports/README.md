@@ -179,7 +179,7 @@ We have also built a docker images that replicate the environment neccessary for
 
 **Too long: 254 words**
 
-To organize our MLOPS project, we have created a project structure using Cookiecutter with this [template](https://github.com/SkafteNicki/mlops_template). From the template, we have filled out the following folders:
+We have filled out the following folders:
 * .github/workflows: yml files that automates our workflows together with GitHub Actions making sure that everything works as intended when being pushed to the main branch of our GitHub repository.
 * tests: Includes files for running unit testing on our code
 * {{cookiecutter.repo_name}} / emotions: The folder that contains the actual code that loads and procceses the data, creates a model, trains the model on the data and makes predictions.
@@ -188,6 +188,7 @@ To organize our MLOPS project, we have created a project structure using Cookiec
 * dockerfiles: Folder that contains several dockerfiles that are used to build images for training, prediction. We also store our cloudbuild files for building images in GCP here.
 * models: Folder where the model is stored once it has been trained, so that it can easily be loaded and used for prediction.
 * reports: Folder to document the entire project.
+* Makefile             
 
 and have furthermore added the following folders:
 * config: Folder that contains a config file used to define hyperparameters and experiments that can then be called with Hydra.
@@ -571,7 +572,6 @@ All models become outdated over time. We considered setting up a monitoring syst
 
 By setting up a monitoring system and analyzing the collected data, we would be able to catch this in the early stages and make appropriate changes, for example by adding more formally written text into the training data and retraining the model, or simply building a different service for that type of business scenario. 
 
---- question 23 fill here ---
 
 ### Question 24
 
