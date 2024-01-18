@@ -4,7 +4,7 @@ steps:
   args: ['build', '-f', 'dockerfiles/predict_model.dockerfile', '-t', 'gcr.io/emotions-410912/predict', '.']
 # push container image to Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/emotions-410912/predict'] # should this be "my_fastapi"
+  args: ['push', 'gcr.io/emotions-410912/predict'] 
 # deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
