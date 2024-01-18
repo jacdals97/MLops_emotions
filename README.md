@@ -39,6 +39,24 @@ gcloud ai custom-jobs create \
     --config=vertex_ai_config.yaml
 ```
 
+## How to deploy service using FastAPI
+
+Create the image, tag it and push it to the Artifact Registry using:
+
+```bash
+docker build -f dockerfiles/predict_model.dockerfile  -t my_fastapi .
+docker tag my_fastapi gcr.io/emotions-410912/my_fastapi
+docker push gcr.io/emotions-410912/my_fastapi
+```
+
+Then navigate to the Cloud Run and choose the appropriate settings:
+* Maximum number of instances = 10
+* Allow unauthenticated invocations
+* Choose container port 8000
+* Set memory to 8GB and number of CPUs to 2
+* Request timeout to 3600
+
+
 ## Project structure
 
 The directory structure of the project looks like this:
