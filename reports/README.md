@@ -319,9 +319,9 @@ We made use of DVC to manage storage and versioning of the data. To get started,
 >
 > Answer:
 
-**Too short: 155 words**
+We have used Git Workflow to control the quality of our code before it is deployed, in order to secure a good and smooth experience for the end users of the project or new developers interested in reproducing the project.
 
-We have organized our continuous integration workflow into two separate .yml files that execute specific events: one for doing unittesting and one testing the code format. We are running both the format tests and unittests for Ubuntu, Mac and Windows operating systems with Python version 3.11. The tests are triggered whenever something is pushed or has a pull_request to the main, master and dev branches. As it can take some time to install dependencies and get data from dvc whenever the tests are triggered, we have made use of caching our dependencies in GitHub to speed up this process. The unittests also returns a coverage report, and an example of this triggered workflow can be seen in this link to our [Github-Actions] (https://github.com/jacdals97/MLops_emotions/actions/runs/7499996928/job/20417842206). This CI workflow ensures that our code is up to standard and that is able to be run not only in our local environment, so that it is reproducable for new users.
+The continuous integration have been organized into two separate .yml files that execute specific events: one for doing unittesting and one testing the code format. We are running both the format tests and unittests for Ubuntu, Mac and Windows operating systems with Python version 3.11. The tests are triggered whenever something is pushed or has a pull_request to the main and dev branches. As it can take some time to install dependencies and get data from dvc whenever the tests are triggered, we have made use of caching our dependencies in GitHub to speed up this process. The unittests also return a coverage report, which shows how big a part of the code is being tested. An example of this triggered workflow can be seen in this link to our [Github-Actions] (https://github.com/jacdals97/MLops_emotions/actions/runs/7499996928/job/20417842206). This CI workflow ensures that our code is up to standard and that it is able to be run not only in our local environment, so that it is reproducable for new users.
 
 ## Running code and tracking experiments
 
@@ -340,9 +340,7 @@ We have organized our continuous integration workflow into two separate .yml fil
 >
 > Answer:
 
-**Too long: 119 words**
-
-To organize experiments with different set of hyperparameters and configureatins, we defined these in a .yaml file in a config folder. As an initial step, we have only created a single experiment, but this organization can be set up to easily keep track of different experiments and reproducing them. This file is then loaded using Hydra in our training script, so that training arguments such as batch size, epochs, learning rate and weight decay could be accessed by eg. writing:
+To organize experiments with different set of hyperparameters and configureatins, we defined these in a .yaml file in a config folder. The desired experiment is then loaded using Hydra in our training script, so that training arguments such as batch size, epochs, learning rate and weight decay could be accessed by eg. writing:
 ```
 learning_rate=cfg.hyperparameters.learning_rate
 ```
@@ -379,9 +377,9 @@ As already mentioned above, we made use of config files and Wandb to track our e
 >
 > Answer:
 
-**Too short: 128 words**
+We have used Wandb in order to track the different experiments that have been carried out during the project. With it's interactive dashboards, user friendly interface, access to details and functionality to store modek outputs, Wandb was a good choice for this project
 
-The first image shows the evaluation results of all the runs in Wandb. As it can be seen in the accuracy and loss graph, there is one experiment that out performs the others "dutiful-blaze-9".
+The first image shows the evaluation results of all the runs in Wandb. As it can be seen in the accuracy and loss graph, there is one experiment that out performs the others, "dutiful-blaze-9", with an evaluation accuracy of above 95% and loss below 0.16. Wandb is an interactive tool, so whenever you click on a run you are interested in knowing more about it will display much more information about that specific run. The thirs image below is an example of clicking on "dutiful-blaze-9".
 
 ![my_image](figures/wandb_evaluation.png)
 
@@ -406,7 +404,7 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
-We use Docker to make our project reproducible and scalable, giving it a consistent environment so we are sure it will run the same way, not only locally on our computer, but for other users as well. To do so, we have developed two separate images: one for training and one for deployment. The training image sets up the base environment and configurations by installing the desired Python version and the required packages, and then starting a training run that ends up storing a model. The deployment image also sets up the desired environment and then loads the best performing model and deploys it to a FastAPI application that is served on a simple webpage written in HTML. The deployment image is then pushed to a production environment in Google Cloud, ensuring that the model is running in a consistent environment.
+We use Docker to make our project reproducible and scalable, giving it a consistent environment so we are sure it will run the same way, not only locally on our computer, but for other users as well. To do so, we have developed two separate images: one for training and one for deployment. The training image sets up the base environment and configurations by installing the desired Python version and the required packages, and then starting a training run that ends up storing a model. The deployment image also sets up the desired environment and then loads the best performing model from Wandb and deploys it to a FastAPI application that is served on a simple webpage written in HTML. The deployment image is then pushed to a production environment in Google Cloud, ensuring that the model is running in a consistent environment.
 
 The process is to first write a Docker file, then build the docker image by running the Docker file, and at last running the Docker image and thereby building a Docker Container:
 
@@ -435,11 +433,11 @@ docker run --name experiment1 trainer:latest
 
 When we encountered bugs in the development of our code, we would usually follow this approach for debugging:
 * Understanding the source of the bug by looking into error messages and red lines in VS Code
-* If it is not an easy quick fix, google the problem, as someone has likely faced a similar problem and posted their solution online. [phind](https://www.phind.com/search?home=true) is a great AI search engine to help with this.
-* If a solution is still not found, look into the source code of package where the error occurs, as this can give a deeper understanding of what is necessary to build a work around.
+* If it is not an easy fix, google the problem, as someone has likely faced a similar issue and posted their solution online. [phind](https://www.phind.com/search?home=true) is a great AI search engine to help with this.
+* If a solution is still not found, look into the source code of the package where the error occurs, as this can give a deeper understanding of what is necessary to build a work around.
 * Run the code in chunks to better understand if the error occurs in connection with other parts of the code.
 
-We did not apply profiling on the code, although the Transformer framework has their own build in functionality for optimizing performance/run time.
+We did not apply profiling on the code, although the Transformer framework has their own build-in functionality for optimizing performance/run time.
 
 ## Working in the cloud
 
@@ -456,13 +454,11 @@ We did not apply profiling on the code, although the Transformer framework has t
 >
 > Answer:
 
-**Too long: 260 words**
-
 We used a variety of GCP services, such as:
 
-* Buckets: a simple and cost-effective cloud based storage solution that lets you store and manage large amounts of data. We used this in combination with dvc to also have version control of the data in Google Cloud. In order to access the data in a secure way from e.g. a virtual machine and a docker container, we set up a service account with permission to access the bucket.
-* Artifact Registry: a single place in the cloud to manage container images and language packages, and allows users set up automated pipelines. We have used artifact registry to store our Docker Images, which has been very usefull as Dokcer Images take a long time to build and takes up a lot of space locally. 
-* Cloud Build: a powerfull tool to execute and automate builds in Google Cloud. In this project, Cloud Build was used by setting up a Trigger workflow that automatically builds a Docker Image and stores it in Artifact Registry whenever something is successfully pushed to the main or dev branch of the project's GitHub repository.
+* Buckets: a cost-effective cloud based storage solution that lets you store and manage large amounts of data. We used this in combination with dvc to also have version control of the data in Google Cloud.
+* Artifact Registry: a single place in the cloud to manage container images and language packages, and allows users to set up automated pipelines. We  used artifact registry to store our Docker Images.
+* Cloud Build: a powerfull tool to execute and automate builds in Google Cloud. In this project, Cloud Build was used by setting up automatic triggers for each developer and a manual trigger for final deployment.
 * Vertex AI: a dedicated service for handling everything related to machine learning in the cloud. For this project, Vertex AI was used to train the model and store the output.
 * Cloud Run: a compute platform that lets you run containers directly on top of Google's scalable infrastructure. For this project, Cloud Run was applied to build and render a web app to serve the model and interact with the users.
 
@@ -481,13 +477,11 @@ We used a variety of GCP services, such as:
 
 We took advantage of the compute engine when we used Vertex AI to train the model. This worked by automatically creating a virtual machine with the specifications defined in a configuration file and executing the training docker image. One of the smart things about Vertex AI is that it automatically shuts down the virtual machine when the image has been executed, so that you don't spend unnecessary money. In order to run the training image with Vertex AI, the following command can be executed:
 
-**Update with actual command**
-
 ```
 gcloud ai custom-jobs create \
-    --region=europe-west1 \
-    --display-name=test-run \
-    --config=config.yaml
+    --region=europe-west2 \   
+    --display-name=<run_name> \
+    --config=vertex_ai_config.yaml
 ```
 
 The config.yaml file specifies the desired hardward, among other things. We have primarily trained on the 'n1-highmem-2' CPU, as it took several days to get a quota approved for using the 'N1-standard-8 NVIDIA_TESLA_T4' GPU
@@ -534,21 +528,16 @@ The config.yaml file specifies the desired hardward, among other things. We have
 >
 > Answer:
 
-We developed the app locally using FastAPI and websockets, building on top of code found here: https://fastapi.tiangolo.com/vi/advanced/websockets/
-We added the predict functionality using the previously trained model, which we load from Wandb. 
+We developed the app locally using FastAPI and websockets, building on top of code found [here] (https://fastapi.tiangolo.com/vi/advanced/websockets/). We added the predict functionality using the previously trained model, which we load from Wandb. 
 
 For deployment we build the docker image locally, tag it and push it to the Artifact Registry on GCP. 
 In the cloud using GCP's Cloud Run service, we deployed the model. Several settings were changed from the defaults to ensure that the app would run:
-* Allocate enoguh memory for the large image (3GB)
+* Allocate enough memory for the large image (3GB)
 * Reduce the max number of instances allowed, since each instance needs enough memory to contain the image
 * Allow unauthenticated invocation (our company has plenty of ressources, so top management does not mind it if people outside the company use the service)
 * Set request timeout to the maximum of 3600 seconds. Sometimes the websocket framework might close if the request timeout is too low. 
 
-The application can be accessed vis this [link](). The users simply write in a text, which can be a comment on Twitter, Trustpilot, Tripadvisor or from other social media and business review platform. The application then returns the emotion of the text with a predicted probability. 
-
-
-
-
+The application can be accessed vis this [link](https://my-fastapi-o3qqudwy2q-ew.a.run.app). The users simply write in a text, which can be a comment on Twitter, Trustpilot, Tripadvisor or from other social media and business review platforms. The application then returns the emotion of the text with a predicted probability. 
 
 ### Question 23
 
@@ -563,10 +552,9 @@ The application can be accessed vis this [link](). The users simply write in a t
 >
 > Answer:
 
-All models become outdated over time. We considered setting up a monitoring system that logs the inputtet text strings along with a "satisfaction score", for example through a red-yellow-green button. Our emotion prediction model could become outdated in several ways. For instance, data drifting could result in that our model generalizes worse over time. Imagine, that the consultants begin to use the emotions prediction model for text strings coming from a source that is different in nature from the Tweets the model was trained on. This could be the case if they recieve some more formally written reviews/complaints/comments from a client and then wish to use the model - trained on often informally written tweets - and apply the model on these more formally written reviews/complaints/comments.
+All models become outdated over time. We considered setting up a monitoring system that logs the inputted text strings along with a "satisfaction score", for example through a red-yellow-green button. Our emotion prediction model could become outdated in several ways. For instance, data drifting could result in that our model generalizes worse over time. Imagine, that the consultants begin to use the emotions prediction model for text strings coming from a source that is different in nature from the Tweets the model was trained on. This could be the case if they recieve some more formally written reviews/complaints/comments from a client and then wish to use the model - trained on often informally written tweets - and apply the model on these more formally written reviews/complaints/comments.
 
 By setting up a monitoring system and analyzing the collected data, we would be able to catch this in the early stages and make appropriate changes, for example by adding more formally written text into the training data and retraining the model, or simply building a different service for that type of business scenario. 
-
 
 ### Question 24
 
@@ -603,11 +591,14 @@ At the time of writing (Jan. 17, 3pm), 133 DKK were spent on Google Cloud. Tho c
 
 ![my_image](figures/flowchart.drawio.png)
 
-The starting point of this project's machine learning operations pipeline is the connection between the local setup and GitHub. Through GitHub, several branches are created for different purposes. The lowest level branch is Dev_x where each developer has their own development branch to write code and run tests. The next level is the Dev branch, where each developers advancement are being merged and GutHub Actions runs a variety of tests to secure the quality of the code. The highest level branch is main from where the final project is deployed.
+The starting point of this project's machine learning operations pipeline is the connection between the local setup and GitHub. Through GitHub, several branches are created for different purposes. The lowest level branch is Dev_x where each developer has their own development branch to write code and run tests. The next level is the Dev branch, where each developers advancement are being merged and GitHub Actions runs a variety of tests to secure the quality of the code. The highest level branch is main from where the final project is deployed.
 
-Whenever a developer pushes to their local branch, a Google Cloud Build Trigger is activated, building a Docker training Image and storing it in Artifact Registry. From Artifact Registry, GCP's machine learning service, Vertex AI, can take the training container and train the model. This is done by manually running a job from your local setup. To do so, it also connects to Huggingface to get a Transformer model, it connects to a Cloud Storage Bucket to get versionized data and it connects to Hydra to get hyperparameters. Whenever Vertex AI is done training, the final model is saved to WandB together with information about hyper parameters and the user who ran the job.
+Whenever a developer pushes to their local branch, a Google Cloud Build Trigger is activated, building a Docker training Image and storing it in Artifact Registry. From Artifact Registry, GCP's machine learning service, Vertex AI, can take the training container and train the model. This is done by manually running a job from your local setup. To do so, it also connects to Huggingface to get a Transformer model, it connects to a Cloud Storage Bucket to get versionized data and it connects to Hydra to get hyperparameters. Whenever Vertex AI is done training, the trained model is saved to WandB together with information about hyper parameters, metrics and the user who ran the job.
 
-At last, a manual trigger let's the user deploy the model into a web application created by FastAPI. When doing so, a Docker prediction Image is build and stored in artifact registry and the best performing model is loaded from WandB. A final control is then carried out before directing traffic to the web app in order to see that everything works as expected.
+At last, a manual trigger let's the user deploy the model into a web application created by FastAPI. When doing so, a Docker prediction Image is build and stored in Artifact Registry and the best performing model is loaded from WandB. A final control is then carried out before directing traffic to the web app in order to see that everything works as expected.
+
+The flowchart also shows how a new user/developer would reproduce the project and get up to speed.
+
 
 ### Question 26
 
@@ -623,7 +614,7 @@ At last, a manual trigger let's the user deploy the model into a web application
 
 We faced several challenges during the project, but none that we were not able to overcome in cooperation with each other. One challenge was the fact that we never got a GPU quota for Vertex AI approved by GCP, which meant that training our model was a quite slow process. We also faced several challenges with respect to Docker, as building an image would take up a lot of local disk space and be quite slow when installing requirements. We also spend quite a lot of time making Docker work smoothly together with DVC and Cloud Build.
 
-Throughout the project, as many topics were new to us, we sometimes felt that we were missing some best practice tips, e.g. on how to handle model versioning. In the end we stored our models in Weights and Biases as we encountered issues on accessing models from GCP Buckets, which did not work together with Huggingface's Transformer framework. When we then stored the models in Weights and Biases, we would like to have had more practive with accessing the best performing models in an automated fashion. 
+Throughout the project, as many topics were new to us, we sometimes felt that we were missing some best practice tips, e.g. on how to handle model versioning. In the end we stored our models in Weights and Biases as we encountered issues on accessing models from GCP Buckets, which did not work together with Huggingface's Transformer framework. When we then stored the models in Weights and Biases, we would like to have had more practice with accessing the best performing models in an automated fashion. 
 
 We also encountered some doubts in regards to the CI/CD setup in the Google Cloud Platform, where we were also missing some best practice tips. As training locally on some of our computers, we wanted to automatically build a training image when each of us pushed our local development branches, so that we could submit a Vertex AI job and train on a virtual machine. To do so we created several Cloud Build Triggers. However, this was a major cost driver, and at the end of the day was probably not the best approach as a training image would be constructed whenever we pushed a simple change such as an update to a read_me file. 
 
@@ -645,7 +636,7 @@ We also encountered some doubts in regards to the CI/CD setup in the Google Clou
 >
 > Answer:
 
-On a general note, all team members worked together throughout the entire project and supported each other across all the different task. However, to ensure a smooth and quick development, each member worked primarily with the following topics:
+On a general note, all team members worked together throughout the entire project and supported each other across all the different tasks. However, to ensure a smooth and quick development, each member worked primarily with the following topics:
 
 s240190:
 * Set up model training and inference with connections to Huggingface and Wandb

@@ -10,9 +10,9 @@ The overall goal of the project is to create an online application where consult
 In the application, the consultant will be able to upload a text string for emotion classification. The web app takes a text string, and returns an "emotion prediction" containing the predicted emotion (sadness, joy, love, anger, fear, surprise).
   
 
-A typical use case could be an informal meeting between a consultant and a potential new client, where the consultant takes some publicly available text data relevant to the client (for example comments from reviews on Trustpilot) 
-and does some quick analysis on this to impress the potential client.  
+A typical use case could be an informal meeting between a consultant and a potential new client, where the consultant takes some publicly available text data relevant to the client (for example comments from reviews on Trustpilot) and does some quick analysis on this to impress the potential client.  
 
+The web service can be accessed at: https://my-fastapi-o3qqudwy2q-ew.a.run.app
 
 *B. What framework are you going to use and do you intend to include the framework into your project?*
 
