@@ -36,8 +36,7 @@ Running
 python report.py check
 ```
 
-will check your answers in this template against the constrains listed for each question e.g. is your answer too
-short, too long, have you included an image when asked to.
+will check your answers in this template against the constrains listed for each question e.g. is your answer too short, too long, have you included an image when asked to.
 
 For both functions to work it is important that you do not rename anything. The script have two dependencies that can
 be installed with `pip install click markdown`.
