@@ -86,10 +86,12 @@ The directory structure of the project looks like this:
 ├── README.md            <- The top-level README for developers using this project.   
 │  
 ├── data.dvc             <- Model versioning
+│  
+├── pyproject.toml       <- Build system requirements 
 │
 ├── requirements.txt     <- The requirements file for reproducing the analysis environment
 │
-└── requirements_dev.txt <- The requirements file for reproducing the analysis environment
+└── requirements_dev.txt <- The requirements file for unit tests on data and model coverage
 ```
 
 Created using [mlops_template](https://github.com/SkafteNicki/mlops_template) and [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting

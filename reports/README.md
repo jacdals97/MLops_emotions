@@ -176,26 +176,28 @@ We have also built a docker images that replicate the environment neccessary for
 > *experiments.*
 > Answer:
 
-**Too long: 254 words**
 
 We have filled out the following folders:
-* .github/workflows: yml files that automates our workflows together with GitHub Actions making sure that everything works as intended when being pushed to the main branch of our GitHub repository.
-* tests: Includes files for running unit testing on our code
-* {{cookiecutter.repo_name}} / emotions: The folder that contains the actual code that loads and procceses the data, creates a model, trains the model on the data and makes predictions.
-* .dvc: Folder to set up data version control. Configured to work with storage in Google Drive or remote storage in Google Cloud. By default we use remote storage in Google Cloud.
-* data: Folder where the data is located immediately after being loaded and processed, and then later removed again locally once it is pushed to dvc.
-* dockerfiles: Folder that contains several dockerfiles that are used to build images for training, prediction. We also store our cloudbuild files for building images in GCP here.
-* models: Folder where the model is stored once it has been trained, so that it can easily be loaded and used for prediction.
+* .github/workflows: automates our workflows together with GitHub Actions
+* tests: running unit testing on our code
+* {{cookiecutter.repo_name}} OR emotions: actual code that loads and procceses the data, creates a model, trains the model and makes predictions.
+* .dvc: data version control. Configured to work with storage in Google Drive or remote storage in Google Cloud. By default we use remote storage in Google Cloud.
+* (data: Folder where the data is located immediately after being loaded and processed, and then later removed again locally once it is pushed to dvc.)
+* dockerfiles: build images for training, prediction. We also store our cloudbuild files for building images in GCP here.
 * reports: Folder to document the entire project.
-* Makefile             
+        
 
 and have furthermore added the following folders:
 * config: Folder that contains a config file used to define hyperparameters and experiments that can then be called with Hydra.
+* app: Containing code that creates the FastAPI application
 
 while not using the following folders:
 * hooks
+* (data) see above
+* notebooks
 * icons
 * docs
+* models: We version models using Wandb
 
 
 
@@ -208,13 +210,9 @@ while not using the following folders:
 >
 > Answer:
 
-**Too long: 168 words**
+We have set up GitHub Actions so that whenever something is pushed to the branches 'main' or 'dev', a format workflow is executed using Ruff which first checks the entire code and then automatically formats the code to be PEP8 compliant.
 
-We have set up GitHub Actions so that whenever something is pushed to the branches 'master', 'main' or 'dev', a format workflow is executed using Ruff which first checks the entire code and then automatically formats the code to be PEP8 compliant. We have diverged from one standard PEP8 rule be allowing line-length to be 120, which is implemented in the pyproject.toml file.
-
-Besides that, general good coding practices have been applied by documenting the code with comments as well as explinations on how to use functions.
-
-Formatting our code to be PEP8 compliant, while following other good coding practices is an extremely important task, especially when wotking on larger projects, in order for new users to understand what is going on so that they can reproduce the project, debug if they encounter errors and carry on developing the project. As this can be hard when many developers are working on the project at the same time, tools like Ruff and GitHub Actions helps streamline the final project.
+Formatting our is an extremely important task, especially when wotking on larger projects, in order for new users to understand what is going on so that they can reproduce the project, debug if they encounter errors and carry on developing. Tools like Ruff and GitHub Actions helps streamline the final project.
 
 ## Version control
 
@@ -233,12 +231,10 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 >
 > Answer:
 
-**Too long: 116 words**
-
-In total we have implemented 14 tests that are testing the three critical components of our application:
-* test_data: In order to test that the data is successfully loaded and processed, we test if the data exists, if it's being properly tokenized, and if all the labels are represented in the training data.
-* test_model: To test that the model works as expected, we create a random tensor and run it through the model to see if it's outputted in the correct size and format.
-* test_train: To test if the training code is working properly, we test that it loads the correct model, receives arguments through Hydra, loads the data, computes the expected metrics etc.
+In total we have implemented 14 tests that are testing the three critical components:
+* test_data: Is data successfully loaded and processed? We test if the data exists, if it's being properly tokenized, and if all the labels are represented in the training data.
+* test_model: Does model work? We create a random tensor and run it through the model to see if it's outputted in the correct size and format.
+* test_train: Does the training code work? We test that it loads the correct model, receives arguments through Hydra, loads the data, computes the expected metrics.
 
 ### Question 8
 
@@ -290,7 +286,7 @@ We made use of both branches and pull requests in our project and created the fo
 --- developer_1
 --- developer_2
 --- developer_3
-That way each group member had their own development branch and could work on different parts of the project simultaneously. At the end of each day, we would make a pull request to the dev branch to merge our work together. When merging to the dev branch, we set up Github Actions to test the quality and functionality of the code being merged. Furthermore, we added branch protection to the main branch, in order to add an additional layer of quality control.
+That way each group member had their own development branch and could work on different parts of the project simultaneously. Whenever deemed relevant, we would make a pull request to the dev branch to merge our work together. When merging to the dev branch, we set up Github Actions to test the quality and functionality of the code being merged. Furthermore, we added branch protection to the main branch, in order to add an additional layer of quality control.
 
 
 ### Question 10
@@ -305,7 +301,7 @@ That way each group member had their own development branch and could work on di
 > *pipeline*
 >
 > Answer:
-We made use of DVC to manage storage and versioning of the data. To get started, we initially stored the data in Google Drive and then later on organized dvc to work with a Bucket in Google Cloud Storage. To manage this we wrote a config file to easily switch between these different storage locations. At the end of the day, we did not have any updates to our dataset, thus we did not actively apply versioning on the data and DVC only worked as a large scale storage solution. However, DVC works well when different users want to test different data or make changes to data, so that they can do so without interferring with other's work. 
+We made use of DVC to manage storage and versioning of the data. To get started, we initially stored the data in Google Drive and then later on organized dvc to work with a Bucket in Google Cloud Storage. To manage this we wrote a config file to easily switch between these different storage locations. At the end of the day, we did not have any updates to our dataset, thus we did not actively apply versioning on the data and DVC only worked as a large scale storage solution. However, DVC works well when different users want to test different data or make changes to data, so that they can do so without interferring with other's work. Data versioning could also be relevant in the future if we experience data drifting in our project, and want to update the underlying training data set with data from a different source.  
 
 
 
