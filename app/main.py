@@ -5,7 +5,7 @@ import pandas as pd
 from contextlib import asynccontextmanager
 
 # Load the model
-artifact = "best_model:v1"
+artifact = "best_model:v9"
 
 model = None
 

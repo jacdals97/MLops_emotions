@@ -76,11 +76,11 @@ end of the project.
 * [ check ] Calculate the coverage.
 * [ check ] Get some continuous integration running on the github repository
 * [ check ] Create a data storage in GCP Bucket for you data and preferable link this with your data version control setup
-* [ ] Create a trigger workflow for automatically building your docker images
+* [ check ] Create a trigger workflow for automatically building your docker images
 * [ ] Get your model training in GCP using either the Engine or Vertex AI
 * [ check ] Create a FastAPI application that can do inference using your model
 * [ ] If applicable, consider deploying the model locally using torchserve
-* [ ] Deploy your model in GCP using either Functions or Run as the backend
+* [ check ] Deploy your model in GCP using either Functions or Run as the backend
 
 ### Week 3
 
@@ -93,9 +93,9 @@ end of the project.
 
 ### Additional
 
-* [ ] Revisit your initial project description. Did the project turn out as you wanted?
-* [ ] Make sure all group members have a understanding about all parts of the project
-* [ ] Uploaded all your code to github
+* [ check ] Revisit your initial project description. Did the project turn out as you wanted?
+* [ check ] Make sure all group members have a understanding about all parts of the project
+* [ check ] Uploaded all your code to github
 
 ## Group information
 
@@ -128,14 +128,15 @@ s240190, s161749, s164521
 >
 > Answer:
 
-We used the third-party framework Transformers from Huggingface in our project. First of all, we used the Huggingface platform to find a suitable project, which was the emotion dataset of Twitter posts from Dair-AI. From the Transformers framework we used a variety of functionalities that made it easy to load data, train a model and do inference. We used the following functionalities:
-* Datasets: a powerful library that lets us load the Emotion data in a single line of code as well as easily store the raw and processed data
-* Autotokenizer: a class that contains tokenizers for all of Huggingface's pretrained model, and converts the input data into a format that the pretrained models can work with. We can use different pre-trained model and the Autotokenizer converts the data from plain text to a set of Input Id's and Attention Masks.
-* Training Arguments: a class that allows us to define all the arguments that goes into training the model. We use it in combination with Hydra and Weights and Biasses to configure hyper parameters and manage experiments.
-* Trainer: a class that allows us to simplify the training process of the model by taking care of creating dataloaders, optimizer, computing loss, performing training and prediction step and returning relevant metrics, among other things. It also integrates with Weights and Biasses for logging experiments.
-* Data Collator with Padding: a class that prepares batches of data for training transformer models, while handling cases of data that have different lengths. This is relevant for our Emotion data as some twitter messages might be long and some short, and by padding them to a common size, it creates a more efficient training process.
+We used the third-party frameworks from Huggingface. First we found a suitable dataset for our project inside their Datasets collection. From here we chose to work with their Transformers framework that made it easy to load data, train a model and do inference. 
+
+We used the following functionalities:
+* Datasets: a powerful library that lets us load the data in a single line of code
+* Autotokenizer: contains tokenizers for all of Huggingface's pretrained models
+* Training Arguments: defines all the arguments that goes into training the model. We use it in combination with Hydra and Weights and Biasses to configure hyperparameters and manage experiments.
+* Trainer: simplifies the training process of the model by taking care of creating dataloaders, optimizer, computing loss, performing training and prediction step and returning relevant metrics, among other things. It also integrates with Weights and Biasses for logging experiments.
 * AutoModelForSequenceClassification: used together with from_pretrained() to make a class of the chosen pretrained classification model together with it's weights.
-* Pipeline: a class that helps us organize the inference by taking a model and tokenizer as input and returning a prediction. We have used the "text-classifcation" pipeline, which returns a label and a score when receiving text as input.
+* Pipeline: organizes the inference by taking a model and tokenizer as input and returning a prediction. We have used the "text-classifcation" pipeline, which returns a label and a score when receiving text as input.
 
 ## Coding environment
 
@@ -175,6 +176,8 @@ We have also built a docker images that replicate the environment neccessary for
 > *experiments.*
 > Answer:
 
+**Too long: 254 words**
+
 To organize our MLOPS project, we have created a project structure using Cookiecutter with this [template](https://github.com/SkafteNicki/mlops_template). From the template, we have filled out the following folders:
 * .github/workflows: yml files that automates our workflows together with GitHub Actions making sure that everything works as intended when being pushed to the main branch of our GitHub repository.
 * tests: Includes files for running unit testing on our code
@@ -204,6 +207,8 @@ while not using the following folders:
 >
 > Answer:
 
+**Too long: 168 words**
+
 We have set up GitHub Actions so that whenever something is pushed to the branches 'master', 'main' or 'dev', a format workflow is executed using Ruff which first checks the entire code and then automatically formats the code to be PEP8 compliant. We have diverged from one standard PEP8 rule be allowing line-length to be 120, which is implemented in the pyproject.toml file.
 
 Besides that, general good coding practices have been applied by documenting the code with comments as well as explinations on how to use functions.
@@ -226,6 +231,8 @@ Formatting our code to be PEP8 compliant, while following other good coding prac
 > *application but also ... .*
 >
 > Answer:
+
+**Too long: 116 words**
 
 In total we have implemented 14 tests that are testing the three critical components of our application:
 * test_data: In order to test that the data is successfully loaded and processed, we test if the data exists, if it's being properly tokenized, and if all the labels are represented in the training data.
@@ -315,6 +322,8 @@ We made use of DVC to manage storage and versioning of the data. To get started,
 >
 > Answer:
 
+**Too short: 155 words**
+
 We have organized our continuous integration workflow into two separate .yml files that execute specific events: one for doing unittesting and one testing the code format. We are running both the format tests and unittests for Ubuntu, Mac and Windows operating systems with Python version 3.11. The tests are triggered whenever something is pushed or has a pull_request to the main, master and dev branches. As it can take some time to install dependencies and get data from dvc whenever the tests are triggered, we have made use of caching our dependencies in GitHub to speed up this process. The unittests also returns a coverage report, and an example of this triggered workflow can be seen in this link to our [Github-Actions] (https://github.com/jacdals97/MLops_emotions/actions/runs/7499996928/job/20417842206). This CI workflow ensures that our code is up to standard and that is able to be run not only in our local environment, so that it is reproducable for new users.
 
 ## Running code and tracking experiments
@@ -333,6 +342,8 @@ We have organized our continuous integration workflow into two separate .yml fil
 > *We used a simple argparser, that worked in the following way: python my_script.py --lr 1e-3 --batch_size 25*
 >
 > Answer:
+
+**Too long: 119 words**
 
 To organize experiments with different set of hyperparameters and configureatins, we defined these in a .yaml file in a config folder. As an initial step, we have only created a single experiment, but this organization can be set up to easily keep track of different experiments and reproducing them. This file is then loaded using Hydra in our training script, so that training arguments such as batch size, epochs, learning rate and weight decay could be accessed by eg. writing:
 ```
@@ -371,6 +382,8 @@ As already mentioned above, we made use of config files and Wandb to track our e
 >
 > Answer:
 
+**Too short: 128 words**
+
 The first image shows the evaluation results of all the runs in Wandb. As it can be seen in the accuracy and loss graph, there is one experiment that out performs the others "dutiful-blaze-9".
 
 ![my_image](figures/wandb_evaluation.png)
@@ -396,7 +409,7 @@ The third image below shows the Overview of the best performing experiment dutif
 >
 > Answer:
 
-We have used Docker to make our project reproducible and scalable, giving it a consistent environment so that we are sure it will run the same way, not only locally on our computer, but for other users as well. To do so, we have developed two separate images: one for training and one for deployment. The training image sets up the base environment and configurations by installing the desired Python version and the required packages, and then starting a training run that ends up storing a model. The deployment image also sets up the desired environment and then loads the best performing model and deploys it to a Fast API application that is served on a simple webpage written in HTML. The deployment image is then pushed to a production environment in Google Cloud, ensuring that the model is running in a consistent environment.
+We use Docker to make our project reproducible and scalable, giving it a consistent environment so we are sure it will run the same way, not only locally on our computer, but for other users as well. To do so, we have developed two separate images: one for training and one for deployment. The training image sets up the base environment and configurations by installing the desired Python version and the required packages, and then starting a training run that ends up storing a model. The deployment image also sets up the desired environment and then loads the best performing model and deploys it to a FastAPI application that is served on a simple webpage written in HTML. The deployment image is then pushed to a production environment in Google Cloud, ensuring that the model is running in a consistent environment.
 
 The process is to first write a Docker file, then build the docker image by running the Docker file, and at last running the Docker image and thereby building a Docker Container:
 
@@ -445,6 +458,9 @@ We did not apply profiling on the code, although the Transformer framework has t
 > *We used the following two services: Engine and Bucket. Engine is used for... and Bucket is used for...*
 >
 > Answer:
+
+**Too long: 260 words**
+
 We used a variety of GCP services, such as:
 
 * Buckets: a simple and cost-effective cloud based storage solution that lets you store and manage large amounts of data. We used this in combination with dvc to also have version control of the data in Google Cloud. In order to access the data in a secure way from e.g. a virtual machine and a docker container, we set up a service account with permission to access the bucket.
@@ -505,9 +521,9 @@ The config.yaml file specifies the desired hardward, among other things. We have
 >
 > Answer:
 
---- question 21 fill here ---
+![my_image](figures/Buildhistory.png)
 
-### Question 22
+### Question 22 
 
 > **Did you manage to deploy your model, either in locally or cloud? If not, describe why. If yes, describe how and**
 > **preferably how you invoke your deployed service?**
@@ -521,17 +537,21 @@ The config.yaml file specifies the desired hardward, among other things. We have
 >
 > Answer:
 
-For deployment we wrapped our model into an application using Fast API and then we deployed it in the cloud using GCP's Cloud Run service. **Write a bit more about the Google Cloud setup**
-* Load the model and build the API Request using Fast API
-* Wrap it in HTML code to build a web interface for the application
-* Write a Docker file and build the Docker image belonging to the app
-* Tag and push the image to Artifact Registry in Google Cloud
-* Set up the Cloud Run Service by connecting to the Docker Image, making it continuous and giving it a container port.
+We developed the app locally using FastAPI and websockets, building on top of code found here: https://fastapi.tiangolo.com/vi/advanced/websockets/
+We added the predict functionality using the previously trained model, which we load from Wandb. 
 
-The application can be accessed vis this [link]() and for the users to interact with it, they simply write in a text, which can be a comment on Twitter, Trustpilot, Tripadvisor or from other social media and business review platform. The application then returns the sentiment of the text. A user can also make the following command to invoke the service:
-```
-curl 
-``````
+For deployment we build the docker image locally, tag it and push it to the Artifact Registry on GCP. 
+In the cloud using GCP's Cloud Run service, we deployed the model. Several settings were changed from the defaults to ensure that the app would run:
+* Allocate enoguh memory for the large image (3GB)
+* Reduce the max number of instances allowed, since each instance needs enough memory to contain the image
+* Allow unauthenticated invocation (our company has plenty of ressources, so top management does not mind it if people outside the company use the service)
+* Set request timeout to the maximum of 3600 seconds. Sometimes the websocket framework might close if the request timeout is too low. 
+
+The application can be accessed vis this [link](). The users simply write in a text, which can be a comment on Twitter, Trustpilot, Tripadvisor or from other social media and business review platform. The application then returns the emotion of the text with a predicted probability. 
+
+
+
+
 
 ### Question 23
 
@@ -545,6 +565,10 @@ curl
 > *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
 > Answer:
+
+All models become outdated over time. We considered setting up a monitoring system that logs the inputtet text strings along with a "satisfaction score", for example through a red-yellow-green button. Our emotion prediction model could become outdated in several ways. For instance, data drifting could result in that our model generalizes worse over time. Imagine, that the consultants begin to use the emotions prediction model for text strings coming from a source that is different in nature from the Tweets the model was trained on. This could be the case if they recieve some more formally written reviews/complaints/comments from a client and then wish to use the model - trained on often informally written tweets - and apply the model on these more formally written reviews/complaints/comments.
+
+By setting up a monitoring system and analyzing the collected data, we would be able to catch this in the early stages and make appropriate changes, for example by adding more formally written text into the training data and retraining the model, or simply building a different service for that type of business scenario. 
 
 --- question 23 fill here ---
 
@@ -560,7 +584,7 @@ curl
 >
 > Answer:
 
-At the time of writing (Jan. 17, 3pm), 70.83 DKK were spent on Google Cloud. Tho cost was primarily driven by Artifact Registry, followed by Vulnerability Scanning and training with Vertex AI. Compute Engine and Cloud Storage have very small costs. 
+At the time of writing (Jan. 17, 3pm), 133 DKK were spent on Google Cloud. Tho cost was primarily driven by Artifact Registry, followed by Vulnerability Scanning and training with Vertex AI. In our setup, we push a training image to the artifact registry each time a developer commits changes from local to the developers branch. This is done so that training is possible on GPUs for all developers independently, but comes with the cost of building and sending multiple images to the cloud.  
 
 ## Overall discussion of project
 

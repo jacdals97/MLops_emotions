@@ -8,10 +8,11 @@ from emotions.train_model import (
     initialize_trainer,
     train_model,
     save_model_and_tokenizer,
-    compute_metrics
+    compute_metrics,
 )
 from omegaconf import DictConfig
 import numpy as np
+
 
 def test_load_model():
     mock_model_loader = Mock()
@@ -93,12 +94,14 @@ def test_initialize_trainer():
         mock_trainer_class.assert_called_once()
         assert result == mock_trainer
 
+
 def test_compute_metrics():
     eval_pred = (np.array([[0.8, 0.2], [0.1, 0.9]]), np.array([0, 1]))
     metrics = compute_metrics(eval_pred)
     assert "accuracy" in metrics
     assert "f1_weighted" in metrics
     assert "f1_macro" in metrics
+
 
 def test_train_model():
     mock_trainer = Mock()
