@@ -54,21 +54,7 @@ The directory structure of the project looks like this:
 │
 ├── config               <- Configurations for the experiments 
 │
-├── Makefile             <- Makefile with convenience commands like `make data` or `make train`
-├── README.md            <- The top-level README for developers using this project.   
-│ 
-│
 ├── dockerfiles          <- dockerfiles and cloudbuild.yaml files for building images locally and in cloud   
-│
-│
-├── reports              <- Final project report
-│   └── figures          <- Figures for project report
-│
-├── requirements.txt     <- The requirements file for reproducing the analysis environment
-|
-├── requirements_dev.txt <- The requirements file for reproducing the analysis environment
-│
-├── tests                <- Test scripts
 │
 ├── emotions  <- Source code for use in this project.
 │   │
@@ -88,7 +74,22 @@ The directory structure of the project looks like this:
 │   ├── train_model.py   <- script for training the model
 │   └── predict_model.py <- script for predicting from a model
 │
-└── LICENSE              <- Open-source license if one is chosen
+├── reports              <- Final project report
+│   └── figures          <- Figures for project report
+│
+├── tests                <- Test scripts
+│
+├── .gitignore           <- files to ignore 
+│
+├── Makefile             <- Makefile with convenience commands like `make data` or `make train`
+│  
+├── README.md            <- The top-level README for developers using this project.   
+│  
+├── data.dvc             <- Model versioning
+│
+├── requirements.txt     <- The requirements file for reproducing the analysis environment
+│
+└── requirements_dev.txt <- The requirements file for reproducing the analysis environment
 ```
 
 Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
