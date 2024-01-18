@@ -581,7 +581,13 @@ At the time of writing (Jan. 17, 3pm), 70.83 DKK were spent on Google Cloud. Tho
 >
 > Answer:
 
---- question 25 fill here ---
+![my_image](figures/flowchart.drawio.png)
+
+The starting point of this project's machine learning operations pipeline is the connection between the local setup and GitHub. Through GitHub, several branches are created for different purposes. The lowest level branch is Dev_x where each developer has their own development branch to write code and run tests. The next level is the Dev branch, where each developers advancement are being merged and GutHub Actions runs a variety of tests to secure the quality of the code. The highest level branch is main from where the final project is deployed.
+
+Whenever a developer pushes to their local branch, a Google Cloud Build Trigger is activated, building a Docker training Image and storing it in Artifact Registry. From Artifact Registry, GCP's machine learning service, Vertex AI, can take the training container and train the model. This is done by manually running a job from your local setup. To do so, it also connects to Huggingface to get a Transformer model, it connects to a Cloud Storage Bucket to get versionized data and it connects to Hydra to get hyperparameters. Whenever Vertex AI is done training, the final model is saved to WandB together with information about hyper parameters and the user who ran the job.
+
+At last, a manual trigger let's the user deploy the model into a web application created by FastAPI. When doing so, a Docker prediction Image is build and stored in artifact registry and the best performing model is loaded from WandB. A final control is then carried out before directing traffic to the web app in order to see that everything works as expected.
 
 ### Question 26
 
