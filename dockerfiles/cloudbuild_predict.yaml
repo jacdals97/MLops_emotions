@@ -1,5 +1,36 @@
 steps:
+# build container image
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'dockerfiles/predict_model.dockerfile', '-t', 'gcr.io/emotions-410912/predict', '.']
+# push container image to Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/emotions-410912/predict']
+  args: ['push', 'gcr.io/emotions-410912/predict'] 
+# deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: 
+  - 'run'
+  - 'deploy'
+  - 'predict'
+  - '--image'
+  - 'gcr.io/emotions-410912/predict' 
+  - '--region'
+  - 'europe-west1'
+  - '--no-traffic'
+  - '--port'
+  - '8000'
+  - '--allow-unauthenticated'
+  - '--memory'
+  - '8Gi'
+  - '--max-instances'
+  - '10'
+  - '--timeout'
+  - '3600'
+  - '--cpu'
+  - '2'
+  - '--update-secrets=WANDB_API_KEY=WANDB_API_KEY:latest'
+  - '--set-env-vars=[WANDB_ENTITY=mlops_group5,WANDB_PROJECT=emotion-classification]'
+images:
+- 'gcr.io/emotions-410912/predict' 
+options:
+    logging: CLOUD_LOGGING_ONLY

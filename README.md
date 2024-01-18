@@ -30,6 +30,15 @@ https://huggingface.co/datasets/dair-ai/emotion/blob/main/README.md
 
 We expect to use the Microsoft E5 Transformer model from Huggingface.  
 
+## How to submit jobs to Vertex AI
+We provide a file called *vertex_ai_config.yaml* which contains all the necessary arguments that can be passed to the Vertex AI platform including selecting an image, setting environment variables, accessing secrets and specifying hyperparameters for a job.
+```bash
+gcloud ai custom-jobs create \
+    --region=europe-west2 \   
+    --display-name=<run_name> \
+    --config=vertex_ai_config.yaml
+```
+
 ## Project structure
 
 The directory structure of the project looks like this:
