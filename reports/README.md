@@ -301,6 +301,7 @@ That way each group member had their own development branch and could work on di
 > *pipeline*
 >
 > Answer:
+
 We made use of DVC to manage storage and versioning of the data. To get started, we initially stored the data in Google Drive and then later on organized dvc to work with a Bucket in Google Cloud Storage. To manage this we wrote a config file to easily switch between these different storage locations. At the end of the day, we did not have any updates to our dataset, thus we did not actively apply versioning on the data and DVC only worked as a large scale storage solution. However, DVC works well when different users want to test different data or make changes to data, so that they can do so without interferring with other's work. Data versioning could also be relevant in the future if we experience data drifting in our project, and want to update the underlying training data set with data from a different source.  
 
 
@@ -377,9 +378,9 @@ As already mentioned above, we made use of config files and Wandb to track our e
 >
 > Answer:
 
-We have used Wandb in order to track the different experiments that have been carried out during the project. With it's interactive dashboards, user friendly interface, access to details and functionality to store modek outputs, Wandb was a good choice for this project
+We have used Wandb in order to track the different experiments that have been carried out during the project. With it's interactive dashboards, user friendly interface, access to details and functionality to store model outputs, Wandb was a good choice for this project
 
-The first image shows the evaluation results of all the runs in Wandb. As it can be seen in the accuracy and loss graph, there is one experiment that out performs the others, "dutiful-blaze-9", with an evaluation accuracy of above 95% and loss below 0.16. Wandb is an interactive tool, so whenever you click on a run you are interested in knowing more about it will display much more information about that specific run. The thirs image below is an example of clicking on "dutiful-blaze-9".
+The first image shows the evaluation results of all the runs in Wandb. As it can be seen in the accuracy and loss graph, there is one experiment that out performs the others, "dutiful-blaze-9", with an evaluation accuracy of above 95% and loss below 0.16. Wandb is an interactive tool, so whenever you click on a run you are interested in knowing more about it will display much more information about that specific run. The third image below is an example of clicking on "dutiful-blaze-9".
 
 ![my_image](figures/wandb_evaluation.png)
 
@@ -458,7 +459,7 @@ We used a variety of GCP services, such as:
 
 * Buckets: a cost-effective cloud based storage solution that lets you store and manage large amounts of data. We used this in combination with dvc to also have version control of the data in Google Cloud.
 * Artifact Registry: a single place in the cloud to manage container images and language packages, and allows users to set up automated pipelines. We  used artifact registry to store our Docker Images.
-* Cloud Build: a powerfull tool to execute and automate builds in Google Cloud. In this project, Cloud Build was used by setting up automatic triggers for each developer and a manual trigger for final deployment.
+* Cloud Build: a powerfull tool to execute and automate builds in Google Cloud. In this project, Cloud Build was used by setting up automatic triggers for each developer that builds a training image.
 * Vertex AI: a dedicated service for handling everything related to machine learning in the cloud. For this project, Vertex AI was used to train the model and store the output.
 * Cloud Run: a compute platform that lets you run containers directly on top of Google's scalable infrastructure. For this project, Cloud Run was applied to build and render a web app to serve the model and interact with the users.
 

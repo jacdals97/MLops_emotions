@@ -28,7 +28,7 @@ https://huggingface.co/datasets/dair-ai/emotion/blob/main/README.md
 
 *D. What models do you expect to use?*
 
-We expect to use the Microsoft E5 Transformer model from Huggingface.  
+We expect to use the DistilBERT base model (uncased) model from Huggingface.  
 
 ## How to submit jobs to Vertex AI
 We provide a file called *vertex_ai_config.yaml* which contains all the necessary arguments that can be passed to the Vertex AI platform including selecting an image, setting environment variables, accessing secrets and specifying hyperparameters for a job.
