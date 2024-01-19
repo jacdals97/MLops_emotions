@@ -41,13 +41,7 @@ gcloud ai custom-jobs create \
 
 ## How to deploy service using FastAPI
 
-Create the image, tag it and push it to the Artifact Registry using:
-
-```bash
-docker build -f dockerfiles/predict_model.dockerfile  -t my_fastapi .
-docker tag my_fastapi gcr.io/emotions-410912/my_fastapi
-docker push gcr.io/emotions-410912/my_fastapi
-```
+We built a trigger workflow on Google Cloud Build. The trigger is manual and will, once invoked, build an image using the *dockerfiles/cloudbuild_predict.yaml*, push it to the Artifact Registry and deploy a service without traffic. If it is the first time the service is deployed, you will have to set up the Service manually.  You can use the trigger but it will fail when deploying. Afterwards you can manually configure a Cloud Run service pointing to the image in Artifact Registry and use the following settings.
 
 Then navigate to the Cloud Run and choose the appropriate settings:
 * Maximum number of instances = 10
@@ -56,6 +50,13 @@ Then navigate to the Cloud Run and choose the appropriate settings:
 * Set memory to 8GB and number of CPUs to 2
 * Request timeout to 3600
 
+You can also create the image locally, tag it and push it to the Artifact Registry using:
+```bash
+docker build -f dockerfiles/predict_model.dockerfile  -t my_fastapi .
+docker tag my_fastapi gcr.io/emotions-410912/my_fastapi
+docker push gcr.io/emotions-410912/my_fastapi
+```
+Then manage deployment manually.
 
 ## Project structure
 
@@ -109,7 +110,9 @@ The directory structure of the project looks like this:
 │
 ├── requirements.txt     <- The requirements file for reproducing the analysis environment
 │
-└── requirements_dev.txt <- The requirements file for unit tests on data and model coverage
+├── requirements_dev.txt <- The requirements file for unit tests on data and model coverage
+│
+└── vertext_ai_config.yaml <- The configuration file used to submit jobs to Vertex AI 
 ```
 
 Created using [mlops_template](https://github.com/SkafteNicki/mlops_template) and [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting
